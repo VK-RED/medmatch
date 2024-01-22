@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const useRecognise = () => {
 
-    const [recognition,setRecognition] = useState<SpeechRecognition>();
+    const recognitionRef = useRef<SpeechRecognition>();
     const [isRecognising, setRecognising] = useState(false);
     const [transcription, setTranscription] = useState("");
 
@@ -13,7 +13,8 @@ const useRecognise = () => {
     const initialize = () => {
         const Recognition = webkitSpeechRecognition;
 
-        const recognition = new Recognition();
+        recognitionRef.current = new Recognition();
+        const recognition = recognitionRef.current;
 
         recognition.lang = 'en-US';
         recognition.continuous = true;
@@ -32,7 +33,6 @@ const useRecognise = () => {
         // When the transcription is detected 
 
         recognition.onresult = (event) => {
-            console.log(event);
             const latestTranscript = event.results[event.results.length - 1][0].transcript;
             setTranscription((prevTranscript) => prevTranscript + ' ' + latestTranscript);
         };
@@ -41,29 +41,27 @@ const useRecognise = () => {
             console.error('Speech recognition error:', event.error);
         };
 
-        //Set the recognition
-        setRecognition(recognition);
     }
 
     //Start and stop the Recordings
 
     const startRecording = () => {
-        if(recognition){
-            recognition.start();
-            setRecognising(p => true);
+        if(recognitionRef.current){
+            recognitionRef.current.start();
+            setTimeout(()=>{
+                setRecognising(p => true);
+            },1000)
         }
     }
 
     const stopRecording = () => {
-        if(recognition){
-            recognition.stop();
+        if(recognitionRef.current){
+            recognitionRef.current.stop();
             setRecognising(p => false);
         }
     }
 
     return {startRecording, stopRecording, isRecording:isRecognising, transcription}
-
-    
 
 }
 
