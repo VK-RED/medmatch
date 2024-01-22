@@ -34,7 +34,7 @@ const useRecognise = () => {
 
         recognition.onresult = (event) => {
             const latestTranscript = event.results[event.results.length - 1][0].transcript;
-            setTranscription((prevTranscript) => prevTranscript + ' ' + latestTranscript);
+            setTranscription((p) => latestTranscript);
         };
 
         recognition.onerror = (event) => {
