@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import useRecognise from "@/hooks/useRecognise";
 import { useTextToSpeech } from "@/hooks/useTextToSpeech";
+import { useSession, signIn, signOut } from "next-auth/react"
+import { useEffect } from "react";
 
 export default function InterviewPage(){
 
@@ -10,7 +12,11 @@ export default function InterviewPage(){
 
     const {startRecording, stopRecording, isRecording, transcription} = useRecognise();
     const {speak} = useTextToSpeech();
-
+    const { data: session } = useSession()
+    
+    useEffect(()=>{
+        console.log(session);
+    },[session])
 
     const initialize = () => {
         speak('I am not in danger, I am the danger')
