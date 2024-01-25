@@ -15,7 +15,7 @@ export default function InterviewPage(){
     const { data: session } = useSession()
     
     useEffect(()=>{
-        console.log(session);
+        console.log(session,"INside page.tsx");
     },[session])
 
     const initialize = () => {
