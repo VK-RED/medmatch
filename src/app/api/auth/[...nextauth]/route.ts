@@ -1,8 +1,8 @@
-import NextAuth, { AuthOptions } from "next-auth"
+import NextAuth, { SessionStrategy } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-import { PrismaAdapter } from "@auth/prisma-adapter"
 import { PrismaClient } from "@prisma/client"
 import { randomBytes, randomUUID } from "crypto"
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
 const prisma = new PrismaClient()
 
@@ -20,7 +20,7 @@ export const authOptions = {
     // ...add more providers here
   ],
 
-  secret: process.env.SECRET as string,
+  secret: process.env.NEXTAUTH_SECRET as string,
 
   session: {
     // Choose how you want to save the user session.
@@ -29,7 +29,7 @@ export const authOptions = {
     // You can still force a JWT session by explicitly defining `"jwt"`.
     // When using `"database"`, the session cookie will only contain a `sessionToken` value,
     // which is used to look up the session in the database.
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
   
     // Seconds - How long until an idle session expires and is no longer valid.
     maxAge: 30 * 24 * 60 * 60, // 30 days
@@ -44,12 +44,8 @@ export const authOptions = {
     generateSessionToken: () => {
       return randomUUID?.() ?? randomBytes(32).toString("hex")
     },
-
-    
-  }
-
-
-} as AuthOptions;
+  },
+}
 
 export const handler = NextAuth(authOptions)
 export {handler as GET, handler as POST}
