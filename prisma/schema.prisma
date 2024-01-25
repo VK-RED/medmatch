@@ -11,18 +11,18 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -46,10 +46,10 @@ model VerificationToken {
 }
 
 model User {
-  id    String  @id @default(cuid())
-  email String  @unique
-  name  String
-  password String?
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  password      String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]
@@ -59,28 +59,28 @@ model User {
 }
 
 model Chat {
-  id    String     @id @default(cuid())
-  title String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user User @relation(fields: [userId], references: [id])
-  userId String
+  id            String         @id @default(cuid())
+  title         String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
   conversations Conversation[]
 }
 
-model Conversation{
-  id    String     @id @default(cuid())
-  content String
+model Conversation {
+  id        String   @id @default(cuid())
+  content   String
   createdAt DateTime @default(now())
-  chat Chat @relation(fields: [chatId], references: [id])
-  chatId String
-  user User @relation(fields: [userId], references: [id])
-  userId String
-  role Role 
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  chatId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  role      Role
 }
 
 enum Role {
   system
-  user 
+  user
   assistant
 }
