@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client"
 import { randomBytes, randomUUID } from "crypto"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 export const authOptions = {
 
