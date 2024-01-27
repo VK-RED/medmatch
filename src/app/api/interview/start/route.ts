@@ -4,8 +4,7 @@ import { authOptions, prisma } from "../../auth/[...nextauth]/route";
 import { DEF_PROMPT, READY_MESSAGE, RESPONSE_MISSING, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import { openai } from "@/lib/openai";
 
-
-export async function GET(req:NextRequest,res:NextResponse) {
+export async function POST(req:NextRequest,res:NextResponse) {
     
     try {
         
@@ -54,7 +53,6 @@ export async function GET(req:NextRequest,res:NextResponse) {
             }
         })
 
-        
         // send the initial conversation to openAI
 
         const firstCompletion = await openai.chat.completions.create({
@@ -63,8 +61,6 @@ export async function GET(req:NextRequest,res:NextResponse) {
         });
 
         const firstRes = firstCompletion.choices[0].message.content || RESPONSE_MISSING;
-
-        console.log("THE FIRST COMPLETION RESUT ---->",firstRes);
 
         if(firstRes ===RESPONSE_MISSING){
             console.log(RESPONSE_MISSING);
@@ -75,7 +71,6 @@ export async function GET(req:NextRequest,res:NextResponse) {
 
         const readyConvo : {role:'system'|'assistant'|'user', content:string}[] = chat.conversations;
         readyConvo.push({content:READY_MESSAGE,role:'user'});
-        console.log('The Ready Convo is ---------> ', readyConvo);
 
         const secondCompletion = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo',
@@ -84,8 +79,6 @@ export async function GET(req:NextRequest,res:NextResponse) {
 
         
         const secondRes = secondCompletion.choices[0].message.content || RESPONSE_MISSING;
-
-        console.log("THE SECOND COMPLETION RESUT ---->",secondRes);
 
         if(secondRes ===RESPONSE_MISSING){
             console.log(RESPONSE_MISSING);
@@ -103,7 +96,7 @@ export async function GET(req:NextRequest,res:NextResponse) {
             }
         })
 
-        return NextResponse.json({message:newConvo.content});
+        return NextResponse.json({message:newConvo.content, chatId : chat.id});
 
 
     } catch (error) {
