@@ -36,9 +36,6 @@ export async function POST(req:NextRequest){
             where:{
                 id: chatId,
             },
-            select:{
-                completed:true,
-            }
         })
 
         if(!chat){
