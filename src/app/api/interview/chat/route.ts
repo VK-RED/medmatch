@@ -1,4 +1,4 @@
-import { RESPONSE_MISSING, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
+import { CHAT_COMPLETED, NO_INTERVIEW_EXISTS, RESPONSE_MISSING, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions, prisma } from "../../auth/[...nextauth]/route";
@@ -32,6 +32,24 @@ export async function POST(req:NextRequest){
 
         if(!user || !user.id) return NextResponse.json({message:USER_NOT_EXISTS});
 
+        const chat = await prisma.chat.findFirst({
+            where:{
+                id: chatId,
+            },
+            select:{
+                completed:true,
+            }
+        })
+
+        if(!chat){
+            return NextResponse.json({message:NO_INTERVIEW_EXISTS});
+        }
+
+        if(chat.completed){
+            return NextResponse.json({message:CHAT_COMPLETED});
+        }
+
+        // only allow convo if the chat is not completed
         // create new convo
         const newConvo = await prisma.conversation.create({
             data:{
