@@ -6,3 +6,9 @@ export const chatSchema = z.object({
 })
 
 export type chatType = z.infer<typeof chatSchema>
+
+export const endChatSchema = z.object({
+    chatId: z.string(),
+})
+
+export type EndChatType = z.infer<typeof endChatSchema>
