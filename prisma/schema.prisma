@@ -66,6 +66,7 @@ model Chat {
   user          User           @relation(fields: [userId], references: [id])
   userId        String
   conversations Conversation[]
+  completed     Boolean        @default(false)
 }
 
 model Conversation {
