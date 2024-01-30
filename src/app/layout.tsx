@@ -5,7 +5,8 @@ import 'regenerator-runtime/runtime'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import NextAuthProvider from './context/client-provider'
-
+import { Navbar } from '@/components/navbar'
+import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -25,7 +26,18 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider session={session}>
-          {children}
+          
+          <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+            <Navbar>
+              {children}
+            </Navbar>
+          </ThemeProvider>
+          
         </NextAuthProvider>
       </body>
     </html>
