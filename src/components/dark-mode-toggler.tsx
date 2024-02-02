@@ -25,13 +25,13 @@ export function DarkModeToggler() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="dark:bg-black">
-        <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("light")}>
+        <DropdownMenuItem className="cursor-pointer dark:hover:bg-zinc-800" onClick={() => setTheme("light")}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("dark")}>
+        <DropdownMenuItem className="cursor-pointer dark:hover:bg-zinc-800" onClick={() => setTheme("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("system")}>
+        <DropdownMenuItem className="cursor-pointer dark:hover:bg-zinc-800" onClick={() => setTheme("system")}>
           System
         </DropdownMenuItem>
       </DropdownMenuContent>
