@@ -10,7 +10,7 @@ export const Navbar = () => {
     const router = useRouter();
 
     return (
-        <div className="flex justify-between pt-3 pb-2 px-5 min-w-[420px] sticky top-0 z-50 w-full border-b-2 shadow-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex justify-between pt-3 pb-2 px-5 min-w-[420px] sticky top-0 z-50 w-full border-b-2 shadow-xl bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mb-5">
 
             <h1 className="scroll-m-20 text-3xl font-bold tracking-tight ">
                 MedMatch
@@ -18,7 +18,6 @@ export const Navbar = () => {
 
             <div  className="flex justify-center items-center space-x-4">
                 <DarkModeToggler />
-                    {/* TODO - YOU NEED TO SHOW AVATAR TOGGLER ONLY IF A USER IS SIGNED IN */}
 
                 {
                     status === 'unauthenticated' ? (
