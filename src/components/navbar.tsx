@@ -1,12 +1,10 @@
 'use client'
-
-import { NavBarProps } from "@/lib/types"
 import { DarkModeToggler } from "./dark-mode-toggler"
 import { AvatarToggler } from "./avatar-toggler"
 import { useSession } from "next-auth/react"
 import { Button } from "./ui/button"
 import { useRouter } from "next/navigation"
-export const Navbar = ({children}:NavBarProps) => {
+export const Navbar = () => {
 
     const {status} = useSession();
     const router = useRouter();
