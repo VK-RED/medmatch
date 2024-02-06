@@ -13,6 +13,3 @@ export const endChatSchema = z.object({
 
 export type EndChatType = z.infer<typeof endChatSchema>
 
-export type NavBarProps = {
-    children : React.ReactNode,
-}
