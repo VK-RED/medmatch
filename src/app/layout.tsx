@@ -33,9 +33,8 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-            <Navbar>
+            <Navbar/>
               {children}
-            </Navbar>
           </ThemeProvider>
           
         </NextAuthProvider>
