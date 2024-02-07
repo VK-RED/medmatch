@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import NextAuthProvider from './context/client-provider'
 import { ThemeProvider } from '@/components/theme-provider'
+import { ChildrenProps } from '@/lib/types'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -15,9 +16,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: ChildrenProps) {
 
   const session = await getServerSession(authOptions);
 

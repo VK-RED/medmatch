@@ -1,8 +1,8 @@
+import { ChildrenProps } from "@/lib/types";
+
 export default function AuthLayout({
     children,
-  }: {
-    children: React.ReactNode
-  }) {
+  }: ChildrenProps) {
     return (
      <>
         {children}
