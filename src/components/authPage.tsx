@@ -1,24 +1,22 @@
-import { Metadata } from "next"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { UserAuthForm } from "@/components/user-auth-form"
 import { buttonVariants } from "@/components/ui/button"
-import { SIGNIN_DESCRIPTION, SIGNIN_TITLE } from "@/lib/constants"
 import { AuthPageProps, AuthStatus } from "@/lib/types"
 
-
-export default function AuthPage({title, description, authStatus}: AuthPageProps) {
+export default function AuthPage({title, description, authstatus}: AuthPageProps) {
+    
   return (
     <>
       <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
-          href={authStatus === AuthStatus.Signin ? "/signup" : "/signin"}
+          href={authstatus === AuthStatus.Signin ? "/signup" : "/signin"}
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute right-4 top-4 md:right-8 md:top-8"
           )}
         >
-          {authStatus === AuthStatus.Signin ? "Signup" : "Login"}
+          {authstatus === AuthStatus.Signin ? "Signup" : "Login"}
         </Link>
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
           <div className="absolute inset-0 bg-zinc-800" />
@@ -57,7 +55,7 @@ export default function AuthPage({title, description, authStatus}: AuthPageProps
                 {description}
               </p>
             </div>
-            <UserAuthForm authStatus={AuthStatus.Signin}/>
+            <UserAuthForm authstatus={AuthStatus.Signin}/>
           </div>
         </div>
       </div>

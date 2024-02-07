@@ -11,6 +11,6 @@ export const metadata: Metadata = {
 export default function AuthenticationPage(){
   
   return (
-    <AuthPage authStatus={AuthStatus.Signin} title={SIGNIN_TITLE} description={SIGNIN_DESCRIPTION}/>
+    <AuthPage authstatus={AuthStatus.Signin} title={SIGNIN_TITLE} description={SIGNIN_DESCRIPTION}/>
   )
 }

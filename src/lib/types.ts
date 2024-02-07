@@ -14,13 +14,13 @@ export const endChatSchema = z.object({
 export type EndChatType = z.infer<typeof endChatSchema>
 
 export interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-    authStatus : AuthStatus,
+    authstatus : AuthStatus,
 }
 
 export interface AuthPageProps{
     title: string,
     description? : string,
-    authStatus : AuthStatus,
+    authstatus : AuthStatus,
 }
 
 export enum AuthStatus{

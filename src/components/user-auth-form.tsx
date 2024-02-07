@@ -11,7 +11,7 @@ import { AuthStatus, UserAuthFormProps } from "@/lib/types"
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const authStatus = props.authStatus;
+  const authStatus = props.authstatus;
     // TODO : HANDLE THE AUTH FLOW HERE 
 
   async function onSubmit(event: React.SyntheticEvent) {
