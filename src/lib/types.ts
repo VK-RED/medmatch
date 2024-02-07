@@ -14,3 +14,7 @@ export const endChatSchema = z.object({
 export type EndChatType = z.infer<typeof endChatSchema>
 
 export interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export interface ChildrenProps{
+    children : React.ReactNode
+}
