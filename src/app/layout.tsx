@@ -5,7 +5,6 @@ import 'regenerator-runtime/runtime'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
 import NextAuthProvider from './context/client-provider'
-import { Navbar } from '@/components/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,7 +32,6 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-            <Navbar/>
               {children}
           </ThemeProvider>
           
