@@ -13,3 +13,5 @@ export const CHAT_COMPLETED = `THE INTERVIEW HAS BEEN COMPLETED. YOU CAN NO LONG
 export const INTERVIEW_ENDED = `THE INTERVIEW HAS BEEN ENDED SUCCESSFULLY`
 export const SIGNIN_TITLE = `Login to your account`
 export const SIGNIN_DESCRIPTION =`Enter your email and password below`
+export const SIGNUP_TITLE = `Create an Account`
+export const SIGNUP_DESCRIPTION = `Enter your name, email and password`
