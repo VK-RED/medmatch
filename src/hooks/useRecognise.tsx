@@ -19,15 +19,15 @@ const useRecognise = () => {
         recognition.lang = 'en-US';
         recognition.continuous = true;
 
-        // recognition start functions
+        // // recognition start functions
 
-        recognition.onstart = function() {
-            console.log('Voice Is Activated, You Can Speak');
-         };
+        // recognition.onstart = function() {
+        //     console.log('Voice Is Activated, You Can Speak');
+        //  };
 
-         recognition.onaudiostart = () => {
-            console.log("Audio capturing started");
-          };
+        //  recognition.onaudiostart = () => {
+        //     console.log("Audio capturing started");
+        //   };
           
 
         // When the transcription is detected 
