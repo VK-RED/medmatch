@@ -2821,6 +2821,11 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
+react-voice-visualizer@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/react-voice-visualizer/-/react-voice-visualizer-1.8.1.tgz#2488ac3f67c7ef24f5a357820296e14659653c23"
+  integrity sha512-v7dEfb4HbMwhUpLA6FDVVMyNFw8/pOlBNHW4NfhvXSpL8WFuqSdOzEo4HdOC/T5HnpDPKErk4SbGJPOzvlfxfQ==
+
 react@^18:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
