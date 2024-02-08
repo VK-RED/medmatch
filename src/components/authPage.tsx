@@ -5,9 +5,10 @@ import { buttonVariants } from "@/components/ui/button"
 import { AuthPageProps, AuthStatus } from "@/lib/types"
 
 export default function AuthPage({title, description, authstatus}: AuthPageProps) {
-    
+
   return (
     <>
+    {/* TODO : FIX THE HIDDEN PROPERTY */}
       <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href={authstatus === AuthStatus.Signin ? "/signup" : "/signin"}
@@ -55,7 +56,7 @@ export default function AuthPage({title, description, authstatus}: AuthPageProps
                 {description}
               </p>
             </div>
-            <UserAuthForm authstatus={AuthStatus.Signin}/>
+            <UserAuthForm authstatus={authstatus}/>
           </div>
         </div>
       </div>
