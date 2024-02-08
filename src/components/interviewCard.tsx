@@ -10,7 +10,7 @@ export const InterviewCard = ({text}:InterviewCardProps) => {
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>AI</AvatarFallback>
             </Avatar>
-            <div className="p-3 rounded-lg bg-gray-100 dark:bg-gray-900 order-1 mx-4">
+            <div className="p-3 rounded-lg bg-gray-200 dark:bg-zinc-800 order-1 mx-4">
                 <p className="text-md">{text}</p>
             </div>
         </div>
