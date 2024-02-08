@@ -31,3 +31,8 @@ export enum AuthStatus{
 export interface ChildrenProps{
     children : React.ReactNode
 }
+
+
+export interface InterviewCardProps{
+    text:string
+}
