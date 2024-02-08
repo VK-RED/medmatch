@@ -56,29 +56,27 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoComplete="email"
               autoCorrect="off"
               id="email"
-              placeholder="name@example.com"
+              placeholder="david@example.com"
               type="email"
               autoCapitalize="none"
               disabled={isLoading}
             />
           </div>
-          {
-            authStatus === AuthStatus.Signin &&
-
-            <div className="grid gap-1">
+          
+          <div className="grid gap-1">
             <Label className="sr-only" htmlFor="password">
               Password
             </Label>
             <Input
               id="password"
-              placeholder="Example@123"
+              placeholder="Kjb34r@134"
               type="password"
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
             />
           </div>
-          }
+          
           <Button disabled={isLoading}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
