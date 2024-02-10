@@ -33,6 +33,18 @@ export interface ChildrenProps{
 }
 
 
-export interface InterviewCardProps{
+export interface InterviewerCardProps{
     text:string
+}
+
+export interface UserReplyCardProps{
+    transcription: string,
+    isRecording? : boolean
+}
+
+export interface ControlCardProps {
+    isRecording? : boolean
+    startRecording : () => void,
+    stopRecording : () => void,
+    chat : () => void,
 }
