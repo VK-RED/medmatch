@@ -2,9 +2,13 @@ import { CHAT_COMPLETED, NO_INTERVIEW_EXISTS, RESPONSE_MISSING, SOMETHING_WENT_W
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions, prisma } from "../../auth/[...nextauth]/route";
-import { chatSchema } from "@/lib/types";
+import { CreateAudioOutput } from "@/lib/types";
 import { openai } from "@/lib/openai";
 import { ZodError } from "zod";
+import fs from "fs";
+import { Readable } from "stream";
+import { createAudioFile } from "@/lib/audio";
+
 
 export async function POST(req:NextRequest){
 
@@ -13,12 +17,22 @@ export async function POST(req:NextRequest){
         const session = await getServerSession(authOptions);
         if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
 
-        const {body} = await req.json();
+        const formData = await req.formData();
+       
+        const aBlob = formData.get('audio') as Blob;
+        const chatId = formData.get('chatId') as string;
 
-        const parsedBody = chatSchema.parse(body);
+        //convert the blob to node buffer
+        const audioBuffer = Buffer.from(await aBlob.arrayBuffer());
 
-        const {chatId, message} = parsedBody;
-        
+        const audioStream = new Readable();
+        audioStream.push(audioBuffer);
+        audioStream.push(null);
+
+        const {audioPath,message} : CreateAudioOutput = await createAudioFile(audioStream);
+
+        if(!audioPath) return NextResponse.json({message:SOMETHING_WENT_WRONG});
+
         const email = session.user.email;
 
         const user = await prisma.user.findFirst({
@@ -46,16 +60,31 @@ export async function POST(req:NextRequest){
             return NextResponse.json({message:CHAT_COMPLETED});
         }
 
+        //send the audio to openai get the transcribed text and get back the message
+
+        const transcription = await openai.audio.transcriptions.create({
+            file: fs.createReadStream(audioPath),
+            model: "whisper-1",
+        })
+
+        console.log(transcription.text);
+
         // only allow convo if the chat is not completed
         // create new convo
         const newConvo = await prisma.conversation.create({
             data:{
-                content: message,
+                content: transcription.text,
                 role: 'user',
                 userId: user.id,
                 chatId 
             }
         })
+
+        // Delete the file once it's been sent to openai
+        if(fs.existsSync(audioPath)){
+            console.log("fileexists, therefore it is removed");
+            fs.unlinkSync(audioPath);
+        }
 
         //get all convos for the chatId
         const allConvos = await prisma.conversation.findMany({
