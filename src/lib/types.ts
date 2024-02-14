@@ -46,3 +46,8 @@ export interface CreateAudioOutput{
     message: string,
     audioPath? : string
 }
+
+export interface ChatResponse{
+    message: string,
+    audioUri?: string,
+}
