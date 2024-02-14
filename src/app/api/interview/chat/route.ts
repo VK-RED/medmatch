@@ -120,9 +120,20 @@ export async function POST(req:NextRequest){
                 userId: user.id,
                 chatId 
             }
-        })
+        })  
 
-        return NextResponse.json({message:resConvo.content})
+        //send the gpt response and get back an audio buffer/blob
+
+        const audio = await openai.audio.speech.create({
+            model: "tts-1",
+            voice: "alloy",
+            input: resConvo.content,
+        });
+        const buffer = Buffer.from(await audio.arrayBuffer());
+        const audioBase64 = buffer.toString('base64');
+        const audioUri = `data:audio/mp3;base64,${audioBase64}`;
+
+        return NextResponse.json({message:resConvo.content, audioUri})
 
     } catch (error) {
 
