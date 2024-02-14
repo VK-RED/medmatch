@@ -2,7 +2,7 @@ import { CHAT_COMPLETED, NO_INTERVIEW_EXISTS, RESPONSE_MISSING, SOMETHING_WENT_W
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions, prisma } from "../../auth/[...nextauth]/route";
-import { CreateAudioOutput } from "@/lib/types";
+import { ChatResponse, CreateAudioOutput } from "@/lib/types";
 import { openai } from "@/lib/openai";
 import { ZodError } from "zod";
 import fs from "fs";
@@ -10,7 +10,9 @@ import { Readable } from "stream";
 import { createAudioFile } from "@/lib/audio";
 
 
-export async function POST(req:NextRequest){
+export async function POST(req:NextRequest): Promise<NextResponse<ChatResponse>> 
+
+{
 
     try {
         
