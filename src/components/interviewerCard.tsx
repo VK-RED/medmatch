@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { InterviewCardProps } from "@/lib/types"
+import { InterviewerCardProps } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 
-export const InterviewerCard = ({text}:InterviewCardProps) => {
+export const InterviewerCard = ({text}:InterviewerCardProps) => {
 
     return  (
         
