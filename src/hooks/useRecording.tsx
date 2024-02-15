@@ -4,7 +4,6 @@ const useRecording = () => {
 
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
     const [isrecording, setIsRecording] = useState(false);
-    const [audioUrl,setAudioUrl] = useState("");
     const chunks = useRef<Blob[]>([]);
     const formRef = useRef<FormData|null>(null);
     const [audioBlob, setAudioBlob] = useState<Blob>()
@@ -28,9 +27,7 @@ const useRecording = () => {
         recorder.onstop = () => {
             const aBlob = new Blob(chunks.current,{type:'audio/mp3'});
             setAudioBlob((p) => aBlob);
-            const url = URL.createObjectURL(aBlob);
             formRef.current?.append('audio',aBlob,'audio.mp3');
-            setAudioUrl((u)=>url);
         }
 
         setMediaRecorder(recorder);
@@ -66,9 +63,8 @@ const useRecording = () => {
         isrecording,
         startRecording,
         stopRecording,
-        audioUrl,
         formData: formRef.current,
-        audioBlob
+        audioBlob,
     }
 
 }
