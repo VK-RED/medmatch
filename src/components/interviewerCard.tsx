@@ -6,7 +6,7 @@ export const InterviewerCard = ({text}:InterviewerCardProps) => {
 
     return  (
         
-        <div className="flex items-end space-x-2 p-4 max-w-[700px] min-w-[700px]">
+        <div className="flex items-end space-x-2 p-4 max-w-[350px] sm:max-w-[500px] lg:max-w-[700px] lg:min-w-[700px] justify-center">
             <Avatar className="w-8 h-8 order-2 ml-4">
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>AI</AvatarFallback>
