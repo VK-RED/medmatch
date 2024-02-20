@@ -1,3 +1,4 @@
+import { Session } from "next-auth";
 import { z } from "zod";
 
 export const endChatSchema = z.object({
@@ -32,7 +33,7 @@ export interface InterviewerCardProps{
 
 export interface UserReplyCardProps{
     transcription: string,
-    isRecording? : boolean
+    session : Session
 }
 
 export interface ControlCardProps {
