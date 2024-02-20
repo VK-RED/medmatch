@@ -57,3 +57,11 @@ export interface GetInterviewByIdProps{
     params:{id:string},
     searchParams:{}
 }
+
+export interface AllInterviewsType{
+    interviews?:{
+        id:string,
+        title:string,
+    }[],
+    message?:string,
+}
