@@ -51,3 +51,8 @@ export interface ChatResponse{
     message: string,
     audioUri?: string,
 }
+
+export interface GetInterviewByIdProps{
+    params:{id:string},
+    searchParams:{}
+}
