@@ -2,9 +2,10 @@ import { SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions, prisma } from "../../auth/[...nextauth]/route";
+import { AllInterviewsType } from "@/lib/types";
 
 
-export async function GET(req:NextRequest){
+export async function GET(req:NextRequest):Promise<NextResponse<AllInterviewsType>>{
 
     try {
         
