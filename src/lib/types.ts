@@ -65,3 +65,7 @@ export interface AllInterviewsType{
     }[],
     message?:string,
 }
+
+export interface InterviewCardProps{
+    title:string,
+}
