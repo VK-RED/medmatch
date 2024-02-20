@@ -2,7 +2,6 @@ import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route";
 import { GetInterviewByIdProps } from "@/lib/types";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { headers } from 'next/headers'
 import { InterviewerCard } from "@/components/interviewerCard";
 import { UserReplyCard } from "@/components/userReplyCard";
 
@@ -29,7 +28,7 @@ export default async function GetInterviewById(props:GetInterviewByIdProps) {
 
     const chat = await prisma.chat.findFirst({
         where:{
-            id:'clsu1ns5o00011rub74y8ctks',
+            id:interviewId,
             userId:user.id,
         },
         select:{
