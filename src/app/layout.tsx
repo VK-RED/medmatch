@@ -7,6 +7,8 @@ import { authOptions } from './api/auth/[...nextauth]/route'
 import NextAuthProvider from './context/client-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ChildrenProps } from '@/lib/types'
+import { Toaster } from "@/components/ui/toaster"
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -32,6 +34,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <Toaster />
           </ThemeProvider>
           
         </NextAuthProvider>
