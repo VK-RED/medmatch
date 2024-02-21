@@ -52,7 +52,7 @@ export default function AllInterviews(){
             <div className='grid gap-10 mt-8 md:grid-cols-2 lg:grid-cols-3 '>
                 {
                     interviews.map((i)=>(
-                        <div onClick={()=>{
+                        <div key={i.id} onClick={()=>{
                             router.push(`/interview/${i.id}`)
                         }}>
                             <InterviewCard title={i.title}/>

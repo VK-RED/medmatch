@@ -66,19 +66,19 @@ export default async function GetInterviewById(props:GetInterviewByIdProps) {
 
                             if(ind == 1){
                                 return (
-                                    <div className="lg:relative lg:left-12">
+                                    <div key={c.id} className="lg:relative lg:left-12">
                                         <InterviewerCard text={c.content}/>
                                     </div>
                                 )
                             }
 
                             return (
-                                <InterviewerCard text={c.content}/>
+                                <InterviewerCard key={c.id} text={c.content}/>
                             )
                         }
                         if(c.role === 'user'){
                             return (                              
-                                <UserReplyCard transcription={c.content} session={session}/>                               
+                                <UserReplyCard key={c.id} transcription={c.content} session={session}/>                               
                             )
                         }
                     })
