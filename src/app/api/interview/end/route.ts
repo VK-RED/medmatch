@@ -11,7 +11,8 @@ export async function POST(req:NextRequest){
         const session = await getServerSession(authOptions);
         if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
 
-        const {body} = await req.json();
+        const body = await req.json();
+
         const parsedBody = endChatSchema.parse(body);
 
         const {chatId} = parsedBody;
