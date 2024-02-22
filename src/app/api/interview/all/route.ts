@@ -26,6 +26,9 @@ export async function GET(req:NextRequest):Promise<NextResponse<AllInterviewsTyp
                     select:{
                         id:true,
                         title:true,
+                    },
+                    where:{
+                        completed:true
                     }
                 },
                 id:true,
