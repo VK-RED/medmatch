@@ -50,6 +50,7 @@ export async function POST(req:NextRequest,res:NextResponse) {
                     }
                 },
                 id : true,
+                title:true,
             }
         })
 
@@ -96,7 +97,16 @@ export async function POST(req:NextRequest,res:NextResponse) {
             }
         })
 
-        return NextResponse.json({message:newConvo.content, chatId : chat.id});
+        const audio = await openai.audio.speech.create({
+            model: "tts-1",
+            voice: "alloy",
+            input: newConvo.content,
+        });
+        const buffer = Buffer.from(await audio.arrayBuffer());
+        const audioBase64 = buffer.toString('base64');
+        const audioUri = `data:audio/mp3;base64,${audioBase64}`;
+
+        return NextResponse.json({message:newConvo.content, chatId : chat.id, title:chat.title, audioUri});
 
 
     } catch (error) {
