@@ -19,7 +19,7 @@ import { INTERVIEW_ENDED, NO_INTERVIEW_EXISTS } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ILoader } from "@/components/iloader";
-
+// import React from 'react';
 
 export default function InterviewPage(){
 
@@ -32,6 +32,8 @@ export default function InterviewPage(){
     const[loading,setLoading] = useState(true);
     const[chatId,setChatId] = useState("");
     const [title,setTitle] = useState("");
+
+    // TODO CHECK IF THE PREVIOUS PAGE IS AUDIO CHECKING PAGE
 
     useEffect(()=>{
 
@@ -58,6 +60,9 @@ export default function InterviewPage(){
         const data:ChatResponse = await res.json();
         setIresponse((p)=>data.message);
         const audio = new Audio(data.audioUri);
+        const outputId = localStorage.getItem('audioOut') || "default";
+        //@ts-ignore
+        audio.setSinkId(outputId);
         audio.play();
         formData?.delete('audio');
         setLoading((p)=>false);
@@ -72,6 +77,9 @@ export default function InterviewPage(){
         setTitle((p)=>data.title);
         setLoading((p)=>false);
         const audio = new Audio(data.audioUri);
+        const outputId = localStorage.getItem('audioOut') || "default";
+        //@ts-ignore
+        audio.setSinkId(outputId);
         audio.play();
     }
 
@@ -105,7 +113,7 @@ export default function InterviewPage(){
 
 
     return(
-    
+       
         <div className="h-[90vh] w-screen flex flex-col items-center justify-center relative">
             
             <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 absolute top-10">
@@ -175,5 +183,6 @@ export default function InterviewPage(){
             </div>
 
         </div>
+       
     )
 }
