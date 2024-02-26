@@ -36,9 +36,12 @@ const useRecording = () => {
     // When the page gets mounted for the first time, initialize the recorder
 
     useEffect(()=>{
+
+        const deviceId = localStorage.getItem('audioIn') || "default";
+
         navigator   
         .mediaDevices
-        .getUserMedia({audio:true})
+        .getUserMedia({audio:{deviceId}})
         .then(initializeRecorder)
         
     },[])
