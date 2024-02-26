@@ -8,22 +8,84 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { AuthStatus, UserAuthFormProps } from "@/lib/types"
+import { signIn } from "next-auth/react"
+import { useToast } from "./ui/use-toast"
+import { useRouter, useSearchParams } from "next/navigation"
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
   const authStatus = props.authstatus;
-    // TODO : HANDLE THE AUTH FLOW HERE 
+  const [name,setName] = React.useState("");
+  const [email,setEmail] = React.useState("");
+  const [password,setPassword] = React.useState("");
+  const router = useRouter();
+  const {toast} = useToast();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl')||"/";
+  
+
+  async function handleSignin(){
+      const res = await signIn('credentials',{
+          redirect: false,
+          email,
+          password,
+          callbackUrl,
+      })
+
+      setEmail(""),
+      setPassword("");
+
+      if(res?.error){
+          toast({description:"Please enter valid email or password",variant:"destructive"})
+          setTimeout(() => {
+              router.push("/");
+          }, 2000);
+          
+          return;
+      }
+      else{
+          router.push(callbackUrl);
+      }
+  }
+
+  async function handleSignup(){
+    const body = {
+      name,
+      email,
+      password,
+    };
+
+    const res = await fetch("/api/user/register",{
+      method:"POST",
+      body:JSON.stringify(body),
+    });
+
+    setName("");
+    setEmail(""),
+    setPassword("");
+
+    const data = await res.json();
+    const message = data.message;
+    toast({description:message});
+
+    setTimeout(()=>{
+      router.push('/ready');
+    },1000);
+
+  }
 
   async function onSubmit(event: React.SyntheticEvent) {
 
-    // TODO: HANDLE THE SIGNIN / SIGNUP FLOW HERE 
-
     event.preventDefault()
     setIsLoading(true)
-    window.alert("User Login Try !!!")
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+
+    if(authStatus === AuthStatus.Signup){
+      handleSignup();
+    }
+    else{
+      handleSignin();
+    }
+    setIsLoading(false);
   }
 
   return (
@@ -44,6 +106,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 type="text"
                 autoCapitalize="none"
                 disabled={isLoading}
+                value={name}
+                onChange={(e)=>setName((p)=>e.target.value)}
               />
             </div>
           }
@@ -60,6 +124,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               type="email"
               autoCapitalize="none"
               disabled={isLoading}
+              value={email}
+              onChange={(e)=>setEmail((p)=>e.target.value)}
             />
           </div>
           
@@ -74,6 +140,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isLoading}
+              value={password}
+              onChange={(e)=>setPassword((p)=>e.target.value)}
             />
           </div>
           
@@ -97,7 +165,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </span>
             </div>
           </div>
-          <Button variant="outline" type="button" disabled={isLoading}>
+          <Button onClick={()=>{
+            signIn('google');
+          }}
+            variant="outline" type="button" disabled={isLoading}>
             {isLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : (
