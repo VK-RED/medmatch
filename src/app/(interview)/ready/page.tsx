@@ -13,10 +13,12 @@ import {
   } from "@/components/ui/select"
 import { VoiceRecorder } from "@/components/voiceRecording";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 export default function ReadyPage(){
 
+    const {status} = useSession();
     const [inDevices,setInDevices] = useState<MediaDeviceInfo[]>([]);
     const [outDevies,setOutDevices] = useState<MediaDeviceInfo[]>([]);
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
@@ -28,6 +30,12 @@ export default function ReadyPage(){
     const router = useRouter();
 
     //Check the login status and allow users
+
+    useEffect(()=>{
+        if(status === 'unauthenticated'){
+            router.push("/");
+        }
+    },[status])
     
     useEffect(()=>{
         getDevices();
@@ -128,104 +136,115 @@ export default function ReadyPage(){
         },10000)
     }
 
-    return (
-        <div className="pt-10 flex flex-col items-center justify-center h-[93vh] relative">
-
-            <div className="absolute top-60">
-            
-                <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-                    Test your Mic and Speakers
-                </h2>
-
-                {/* DISPLAY THE MIC OPTIONS */}
-
-                <div className="flex items-center space-x-5 mt-20 relative left-4">
-                    <div className="text-md">Mic Inputs</div>
-
-                    <div>
-                        <Select onValueChange={(value)=>changeAudioInput(value)}>
-
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a Source"/>
-                            </SelectTrigger>
-
-                            <SelectContent>
-
-                                {
-                                    inDevices.map((d,ind)=>(
-                                        <SelectItem key={ind} value={d.deviceId}>{d.label}</SelectItem>
-                                    ))
-                                }
-                                
-                            </SelectContent>
-
-                        </Select>
-                    </div>
-
-                    <Button onClick={()=>{
-                        if(!isRecording){
-                            handleStream();
-                        }
-                        else{
-                            stopRecording();
-                        }
-                    }}>
-                        {isRecording ? "Stop" : "Test Mic"}
-                    </Button>
-
-                
-                </div>
-
-                {/* DISPLAY THE SPEAKER OPTIONS */}
-
-                <div className="flex items-center space-x-5 mt-10">
-                    <div className="text-md">Audio Outputs</div>
-
-                    <div>
-                        <Select onValueChange={(value)=>changeAudioOutput(value)}>
-
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a Source"/>
-                            </SelectTrigger>
-
-                            <SelectContent>
-
-                                {
-                                    outDevies.map((d,ind)=>(
-                                        <SelectItem key={ind} value={d.deviceId}>{d.label}</SelectItem>
-                                    ))
-                                }
-                                
-                            </SelectContent>
-
-                        </Select>
-                    </div>
-
-                    <Button onClick={testAudio}>
-                        Test Audio
-                    </Button>
-
-                
-                </div>
-
-                <div className="mt-10">
-                    {isRecording && <VoiceRecorder />}
-                </div>
-
-
-                {!isRecording && !isPlaying &&
-                    <Button className="w-full" onClick={()=>{
-                        router.push('/interview');
-                    }}>
-                        Start Interview
-                    </Button>
-                }
-
-                
-
+    if(status === 'loading'){
+        return (
+            <div>
+                Loading ...
             </div>
-            
-        </div>
-    )
+        )
+    }
+
+    if(status === 'authenticated'){
+
+        return (
+            <div className="pt-10 flex flex-col items-center justify-center h-[93vh] relative">
+
+                <div className="absolute top-60">
+                
+                    <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                        Test your Mic and Speakers
+                    </h2>
+
+                    {/* DISPLAY THE MIC OPTIONS */}
+
+                    <div className="flex items-center space-x-5 mt-20 relative left-4">
+                        <div className="text-md">Mic Inputs</div>
+
+                        <div>
+                            <Select onValueChange={(value)=>changeAudioInput(value)}>
+
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Select a Source"/>
+                                </SelectTrigger>
+
+                                <SelectContent>
+
+                                    {
+                                        inDevices.map((d,ind)=>(
+                                            <SelectItem key={ind} value={d.deviceId}>{d.label}</SelectItem>
+                                        ))
+                                    }
+                                    
+                                </SelectContent>
+
+                            </Select>
+                        </div>
+
+                        <Button onClick={()=>{
+                            if(!isRecording){
+                                handleStream();
+                            }
+                            else{
+                                stopRecording();
+                            }
+                        }}>
+                            {isRecording ? "Stop" : "Test Mic"}
+                        </Button>
+
+                    
+                    </div>
+
+                    {/* DISPLAY THE SPEAKER OPTIONS */}
+
+                    <div className="flex items-center space-x-5 mt-10">
+                        <div className="text-md">Audio Outputs</div>
+
+                        <div>
+                            <Select onValueChange={(value)=>changeAudioOutput(value)}>
+
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Select a Source"/>
+                                </SelectTrigger>
+
+                                <SelectContent>
+
+                                    {
+                                        outDevies.map((d,ind)=>(
+                                            <SelectItem key={ind} value={d.deviceId}>{d.label}</SelectItem>
+                                        ))
+                                    }
+                                    
+                                </SelectContent>
+
+                            </Select>
+                        </div>
+
+                        <Button onClick={testAudio}>
+                            Test Audio
+                        </Button>
+
+                    
+                    </div>
+
+                    <div className="mt-10">
+                        {isRecording && <VoiceRecorder />}
+                    </div>
+
+
+                    {!isRecording && !isPlaying &&
+                        <Button className="w-full" onClick={()=>{
+                            router.push('/interview');
+                        }}>
+                            Start Interview
+                        </Button>
+                    }
+
+                    
+
+                </div>
+                
+            </div>
+        )
+    }
 }
 
