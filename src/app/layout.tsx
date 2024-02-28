@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import 'regenerator-runtime/runtime'
 import { getServerSession } from 'next-auth'
-import { authOptions } from './api/auth/[...nextauth]/route'
+import { authOptions } from "@/lib/authOptions"
 import NextAuthProvider from './context/client-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ChildrenProps } from '@/lib/types'

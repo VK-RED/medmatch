@@ -3,7 +3,7 @@ import AuthPage from "@/components/authPage"
 import { AuthStatus } from "@/lib/types"
 import { SIGNIN_DESCRIPTION, SIGNIN_TITLE } from "@/lib/constants"
 import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/authOptions"
 import { getProviders } from "next-auth/react"
 
 export const metadata: Metadata = {

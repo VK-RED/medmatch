@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions, prisma } from "../../auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
 import { DEF_PROMPT, READY_MESSAGE, RESPONSE_MISSING, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import { openai } from "@/lib/openai";
+import { authOptions } from "@/lib/authOptions"
 
 export async function POST(req:NextRequest,res:NextResponse) {
     

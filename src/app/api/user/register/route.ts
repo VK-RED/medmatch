@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "../../auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
 import * as bcrypt from "bcryptjs"
 
 export async function POST(req:NextRequest){

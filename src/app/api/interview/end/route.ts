@@ -2,7 +2,8 @@ import { INTERVIEW_ENDED, NO_INTERVIEW_EXISTS, SOMETHING_WENT_WRONG, USER_NOT_LO
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
-import { authOptions, prisma } from "../../auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
+import { authOptions } from "@/lib/authOptions"
 import { endChatSchema } from "@/lib/types";
 
 export async function POST(req:NextRequest){

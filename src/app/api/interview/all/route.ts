@@ -1,7 +1,8 @@
 import { SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions, prisma } from "../../auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
+import { authOptions } from "@/lib/authOptions"
 import { AllInterviewsType } from "@/lib/types";
 
 

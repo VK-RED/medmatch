@@ -1,9 +1,10 @@
-import { authOptions, prisma } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
 import { GetInterviewByIdProps } from "@/lib/types";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { InterviewerCard } from "@/components/interviewerCard";
 import { UserReplyCard } from "@/components/userReplyCard";
+import { authOptions } from "@/lib/authOptions"
 
 export default async function GetInterviewById(props:GetInterviewByIdProps) {
 
