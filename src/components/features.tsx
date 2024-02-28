@@ -15,42 +15,42 @@ export const Features = () => {
                         </p>
                     </div>
                 </div>
-                <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+                <div className="mx-auto grid max-w-5xl items-start gap-6 py-12 md:grid-cols-2 lg:gap-12">
                     <div className="flex flex-col justify-center space-y-4">
 
-                        <div className='flex items-center gap-3'>
+                        <div className='flex items-center gap-3 mx-auto'>
                             <BookOpenCheck />
                             <h3 className="text-2xl font-bold">AI Interview Simulations</h3>
                         </div>
                     
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-gray-500 dark:text-gray-400 text-center">
                             Gain experience with our tailored realistic Interview scenarios.
                         </p>
                     </div>
                     <div className="flex flex-col justify-center space-y-4">
-                        <div className='flex items-center gap-3'>
+                        <div className='flex items-center gap-3 mx-auto'>
                             <PackageOpen />
                             <h3 className="text-2xl font-bold">Interview  Archive</h3>
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-gray-500 dark:text-gray-400 text-center">
                             Revisit each questionnaire and review your responses, empowering you to reflect on your progress and refine your interview strategies. 
                         </p>
                     </div>
                     <div className="flex flex-col justify-center space-y-4">
-                        <div className='flex items-center gap-3'>
+                        <div className='flex items-center gap-3 mx-auto'>
                             <LibraryBig />
                             <h3 className="text-2xl font-bold">Medical Knowledge Base</h3>
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-gray-500 dark:text-gray-400 text-center">
                             Access a comprehensive library of OB-GYN information to enhance your knowledge.
                         </p>
                     </div>
                     <div className="flex flex-col justify-center space-y-4">
-                        <div className='flex items-center gap-3'>
+                        <div className='flex items-center gap-3 mx-auto'>
                             <ShieldCheck />
                             <h3 className="text-2xl font-bold">Mock Interviews</h3>
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-gray-500 dark:text-gray-400 text-center">
                             Practice with our library of mock interviews and build confidence.
                         </p>
                     </div>
