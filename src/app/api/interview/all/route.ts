@@ -8,10 +8,11 @@ import { AllInterviewsType } from "@/lib/types";
 
 export async function GET(req:NextRequest):Promise<NextResponse<AllInterviewsType>>{
 
+    // The session is moved out of trycatch blocks as the build fails due to some random reasons
+    const session = await getServerSession(authOptions);
+    if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
+
     try {
-        
-        const session = await getServerSession(authOptions);
-        if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
 
         const email = session.user.email;
 
