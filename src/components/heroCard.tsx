@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation"
 import { Button } from "./ui/button"
+import { useSession } from "next-auth/react";
 
 export const Herocard = () => {
 
     const router = useRouter();
+    const {status} = useSession();
 
     return (
         <section className="w-full pt-12 md:pt-24 lg:pt-32 border-y">
@@ -24,9 +26,16 @@ export const Herocard = () => {
                 <div className="hidden md:flex flex-col gap-2 min-[400px]:flex-row justify-center pt-10">
                   <Button
                     className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300 cursor-pointer"
-                    onClick={()=>{router.push("/signup")}}
+                    onClick={()=>{
+                      if(status === 'unauthenticated'){
+                        router.push("/signup");
+                        return;
+                      }
+                      router.push('/ready');
+                      return;
+                    }}
                   >
-                    Sign Up
+                    {status === 'authenticated' ? 'Get Started' : 'Sign up'}
                   </Button>
                 </div>
               </div>
