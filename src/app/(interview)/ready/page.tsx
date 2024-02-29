@@ -118,6 +118,7 @@ export default function ReadyPage(){
 
     //Get all input and output options
     const getDevices = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({audio:{deviceId:inputId}});
         const d = await navigator.mediaDevices.enumerateDevices();
         setInDevices((p) => d.filter((de)=>de.kind =='audioinput'));
         setOutDevices((p) => d.filter((de)=>de.kind =='audiooutput'));    
