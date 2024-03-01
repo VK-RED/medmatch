@@ -35,6 +35,8 @@ export async function POST(req:NextRequest): Promise<NextResponse<ChatResponse>>
 
         const {audioPath,message} : CreateAudioOutput = await createAudioFile(audioStream);
 
+        console.log("The AudioPath is ----> ",audioPath);
+
         if(!audioPath) return NextResponse.json({message:SOMETHING_WENT_WRONG});
 
         const email = session.user.email;

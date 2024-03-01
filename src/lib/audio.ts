@@ -27,6 +27,9 @@ export const createAudioFile = (audioStream:Readable) : Promise<CreateAudioOutpu
         const fileStream = fs.createWriteStream(audioPath);
         audioStream.pipe(fileStream);
         fileStream.on('finish', () => res({audioPath,message:"File Saved Successfully"}));
-        fileStream.on('error', error => rej({message:"Problem in Saving the file"}));
+        fileStream.on('error', error => {
+            console.log(error);
+            rej({message:"Problem in Saving the file"});
+        });
     })
 }
