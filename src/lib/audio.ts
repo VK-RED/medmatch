@@ -21,7 +21,8 @@ const createAudioName = () => {
 export const createAudioFile = (audioStream:Readable) : Promise<CreateAudioOutput> => {
 
     const audioName = createAudioName();
-    const audioPath = path.join(__dirname,`/../../../../../../${audioName}`);
+    // const audioPath = path.join(__dirname,`/../../../../../../${audioName}`);
+    const audioPath = `/tmp/${audioName}`;
 
     return new Promise((res,rej)=>{
         const fileStream = fs.createWriteStream(audioPath);
