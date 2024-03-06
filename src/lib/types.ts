@@ -69,3 +69,9 @@ export interface AllInterviewsType{
 export interface InterviewCardProps{
     title:string,
 }
+
+export type RetellConvoType = [{role:'user'|'agent', content:string}];
+
+export interface RetellUpdateType{
+    transcript : RetellConvoType
+}
