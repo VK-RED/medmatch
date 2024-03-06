@@ -37,6 +37,7 @@
     "react-speech-recognition": "^3.10.0",
     "react-voice-visualizer": "^1.8.1",
     "regenerator-runtime": "^0.14.1",
+    "retell-client-js-sdk": "^1.3.0",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
