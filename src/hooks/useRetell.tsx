@@ -1,6 +1,7 @@
 'use client'
 
 import { agentId,llmUrl } from "@/lib/config";
+import { RetellConvoType, RetellUpdateType } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { RetellWebClient } from "retell-client-js-sdk";
 
@@ -14,6 +15,9 @@ export const useRetell = () => {
     
   const [isCalling, setIsCalling] = useState(false);
   const [webClient,setWebClient] = useState<RetellWebClient|null>(null);
+  const [conversations,setConversations] = useState<RetellConvoType>();
+  const [agentResponse, setAgentResponse] = useState("");
+  const [isIntStarted,setIsIntStarted] = useState(false);
 
   // Initialize the SDK
   useEffect(() => {
@@ -38,20 +42,22 @@ export const useRetell = () => {
       setIsCalling(false); // Update button to "Start" in case of error
     });
 
-    wClient.on("update", (update) => {
-      // Print live transcript as needed
-      console.log("update", update);
+    wClient.on("update", (update:RetellUpdateType) => {
+      
+      setConversations((p)=>update.transcript);
+
+      if(update.transcript[update.transcript.length-1].role == 'agent'){
+        setAgentResponse((p)=>update.transcript[update.transcript.length-1].content);
+      }
+      
+      if(!isIntStarted){
+        setIsIntStarted((p)=>true);
+      }
+      
     });
 
     setWebClient((p)=>wClient);
   }, []);
-
-  useEffect(()=>{
-    if(webClient){
-      console.log("Retell Client Initialized !!, Starting the Interview");
-      startConversation();
-    }
-  },[webClient])
 
   const startConversation = async () => {
     const registerCallResponse = await registerCall(agentId);
@@ -72,14 +78,6 @@ export const useRetell = () => {
         webClient.stopConversation();
     } 
   }
-
-  const toggleConversation = async () => {
-    if (isCalling && webClient) {
-      startConversation();
-    } else {
-      stopConversation();
-    }
-  };
 
   async function registerCall(agentId: string): Promise<RegisterCallResponse> {
     try {
@@ -109,6 +107,13 @@ export const useRetell = () => {
     }
   }
 
-  return {stopConversation,startConversation};
+  return {
+      stopConversation,
+      startConversation,
+      retellClient:webClient,
+      conversations,
+      agentResponse,
+      isIntStarted,
+  };
 
 };
