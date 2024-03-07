@@ -61,26 +61,15 @@ export default async function GetInterviewById(props:GetInterviewByIdProps) {
 
             <div className="mt-5 space-y-5">
                 {
-                    chat.conversations.map((c,ind)=>{
+                    chat.conversations.map((c)=>{
             
-                        if(c.role === 'system'){
-
-                            if(ind == 1){
-                                return (
-                                    <div key={c.id} className="lg:relative lg:left-12">
-                                        <InterviewerCard text={c.content}/>
-                                    </div>
-                                )
-                            }
-
-                            return (
-                                <InterviewerCard key={c.id} text={c.content}/>
-                            )
-                        }
                         if(c.role === 'user'){
                             return (                              
                                 <UserReplyCard key={c.id} transcription={c.content} session={session}/>                               
                             )
+                        }
+                        else{
+                            return <InterviewerCard key={c.id} text={c.content}/>
                         }
                     })
                 }
