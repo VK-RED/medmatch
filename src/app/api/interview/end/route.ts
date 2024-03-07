@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/lib/authOptions"
-import { endChatSchema } from "@/lib/types";
+import { ConvoArrType, Role, endChatSchema } from "@/lib/types";
 
 export async function POST(req:NextRequest){
     try {
@@ -16,7 +16,7 @@ export async function POST(req:NextRequest){
 
         const parsedBody = endChatSchema.parse(body);
 
-        const {chatId} = parsedBody;
+        const {chatId,conversations} = parsedBody;
 
         const existingChat = await prisma.chat.findFirst({
             where:{
@@ -25,6 +25,12 @@ export async function POST(req:NextRequest){
         })
 
         if(!existingChat) return NextResponse.json({message:NO_INTERVIEW_EXISTS});
+
+        // Create the conversations for the given chatId & userId
+
+        const isConvosCreated = await createConversations(conversations,chatId,session.user.email);
+
+        if(!isConvosCreated) throw new Error("Error in Creating Conversations !!!");
 
         const chat = await prisma.chat.update({
             where:{
@@ -48,4 +54,48 @@ export async function POST(req:NextRequest){
         }
         
     }
+}
+
+function createConversations(conversations:ConvoArrType, chatId:string,email:string):Promise<boolean>{
+
+    return new Promise(async (res,rej) => {
+
+        try {
+
+            const user = await prisma.user.findFirst({
+                where:{
+                    email,
+                },
+                select:{
+                    id:true,
+                }
+            });
+
+            if(!user){
+                throw new Error("User Not found !!!");
+            }
+
+            const userId = user.id;
+
+            conversations.map( async (convo)=>{
+
+                const newConvo = await prisma.conversation.create({
+                    data:{
+                        role: convo.role === Role.user ? 'user' : 'assistant',
+                        content: convo.content,
+                        chatId,
+                        userId,
+                    }
+                })
+    
+            });
+    
+            res(true);
+            
+        } catch (error) {
+            console.log(error);
+            rej(false);
+        }
+
+    })
 }
