@@ -11,9 +11,13 @@ const convoSchema = z.object({
     content:z.string()
 })
 
+const convoArrSchema = z.array(convoSchema);
+
+export type ConvoArrType = z.infer<typeof convoArrSchema>;
+
 export const endChatSchema = z.object({
     chatId: z.string(),
-    conversations: z.array(convoSchema),
+    conversations: convoArrSchema,
 })
 
 export type EndChatType = z.infer<typeof endChatSchema>
