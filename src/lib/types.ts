@@ -1,7 +1,7 @@
 import { Session } from "next-auth";
 import { z } from "zod";
 
-enum Role{
+export enum Role{
     user,
     agent,
 }
