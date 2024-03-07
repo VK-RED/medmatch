@@ -1,11 +1,9 @@
 'use client'
 import { InterviewerCard } from "@/components/interviewerCard";
 import { Button } from "@/components/ui/button";
-import useRecording from "@/hooks/useRecording";
-import { ChatResponse, EndChatType } from "@/lib/types";
+import { EndChatType, Role } from "@/lib/types";
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react";
-import { VoiceRecorder } from "@/components/voiceRecording";
 import {
     Dialog,
     DialogContent,
@@ -19,14 +17,14 @@ import { INTERVIEW_ENDED, NO_INTERVIEW_EXISTS } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ILoader } from "@/components/iloader";
-// import React from 'react';
+import React from 'react';
+import { useRetell } from "@/hooks/useRetell";
 
 export default function InterviewPage(){
 
-    // Speech to text and text-to-speech hooks 
-    const { status } = useSession()
-    const {startRecording, stopRecording, isrecording, formData} = useRecording();
-    const [iResponse,setIresponse] = useState("");
+    
+    const { status } = useSession();
+    const {retellClient,startConversation,stopConversation,conversations,agentResponse,isIntStarted} = useRetell();
     const {toast} = useToast();
     const router = useRouter();
     const[loading,setLoading] = useState(true);
@@ -36,55 +34,49 @@ export default function InterviewPage(){
     // TODO CHECK IF THE PREVIOUS PAGE IS AUDIO CHECKING PAGE
 
     useEffect(()=>{
-
         if(status === 'unauthenticated'){
             router.push('/');
             return;
         }
         if(status === 'authenticated'){
-            startInterview();
+            initInterview();
         }
 
     },[])
 
-    
-    async function chat(){
+    useEffect(()=>{
 
-        formData?.append("chatId",chatId);
-        setLoading((p)=>true)
-        const res = await fetch("/api/interview/chat",{
-            method:"POST",
-            body: formData,
-        })
+        // Once the  title is received && retellClient is initialised , start the conversation with llm interviewer
 
-        const data:ChatResponse = await res.json();
-        setIresponse((p)=>data.message);
-        const audio = new Audio(data.audioUri);
-        const outputId = localStorage.getItem('audioOut') || "default";
-        //@ts-ignore
-        audio.setSinkId(outputId);
-        audio.play();
-        formData?.delete('audio');
-        setLoading((p)=>false);
-    }
+        if(title && retellClient){
+            console.log("The title and the retell client is initialised !!");
+            startConversation();
+            setLoading((p)=>false);
+        }
 
-    async function startInterview(){
-        console.log(1);
+    },[title, retellClient]) 
+
+
+    async function initInterview(){
         const res = await fetch('/api/interview/start',{method:'POST'});
-        const data:{chatId:string,message:string, title:string, audioUri:string} = await res.json();
+        const data:{chatId:string, title:string} = await res.json();
         setChatId((p)=>data.chatId);
-        setIresponse((p)=>data.message);
         setTitle((p)=>data.title);
-        setLoading((p)=>false);
-        const audio = new Audio(data.audioUri);
-        const outputId = localStorage.getItem('audioOut') || "default";
-        //@ts-ignore
-        audio.setSinkId(outputId);
-        audio.play();
     }
 
     async function endInterview(){
-        const body:EndChatType = {chatId};
+
+        if(!conversations) return;
+
+        stopConversation();
+
+        const modConvos = conversations.map((con)=>({
+            content:con.content,
+            role: con.role === 'agent' ? Role.agent : Role.user,
+        }))
+
+        const body:EndChatType = {chatId,conversations:modConvos};
+
         const res = await fetch('/api/interview/end',{
             method:'POST',
             body:JSON.stringify(body),
@@ -113,76 +105,55 @@ export default function InterviewPage(){
 
 
     return(
-       
-        <div className="h-[90vh] w-screen flex flex-col items-center justify-center relative">
-            
-            <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 absolute top-10">
-                {title}
-            </h2>
 
-            <div className="flex flex-col items-center py-14 space-y-10  justify-center">
+        <React.StrictMode>
+            <div className="h-[90vh] w-screen flex flex-col items-center justify-center relative">
+                
+                <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 absolute top-10">
+                    {title}
+                </h2>
 
-                {
-                    loading ? <ILoader />
-                    :
-                    <>
+                <div className="flex flex-col items-center py-14 space-y-10  justify-center">
 
-                        <InterviewerCard text={iResponse}/>
+                    {
+                        !isIntStarted ? <ILoader />
+                        :
+                        <>
 
-                        {   isrecording &&
-                            <div>
-                                <VoiceRecorder />
-                            </div>
-                        }
+                            <InterviewerCard text={agentResponse}/>
 
+                        </>
+                    }
 
-                        <div className="flex flex-col items-center space-y-5 w-full">
+                    <div className="absolute bottom-10">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button disabled={loading} className="dark:bg-red-700" variant={"destructive"}>
+                                    End Interview
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>End Interviewing?</DialogTitle>
+                                    <DialogDescription>
+                                        Click the Button below to end the interview.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <Button disabled={loading} onClick={()=>{
+                                        setLoading((p)=>true);
+                                        endInterview();
+                                        setLoading(false);
+                                    }} type="submit">End</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
 
-                            <Button disabled={loading}
-                                onClick={()=>{
-                                if(!isrecording){
-                                    startRecording();
-                                    return;
-                                }
-                                stopRecording();
-                            }}>{isrecording ? "Stop Recording" : "Start Recording"}</Button>
-                        
-
-                            {formData?.get('audio') && <Button disabled={loading} onClick={chat}>{'Send Response'}</Button>}
-
-                        </div>
-
-                    </>
-                }
-
-                <div className="absolute bottom-10">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button disabled={loading} className="dark:bg-red-700" variant={"destructive"}>
-                                End Interview
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>End Interviewing?</DialogTitle>
-                                <DialogDescription>
-                                    Click the Button below to end the interview.
-                                </DialogDescription>
-                            </DialogHeader>
-                            <DialogFooter>
-                                <Button disabled={loading} onClick={()=>{
-                                    setLoading((p)=>true);
-                                    endInterview();
-                                    setLoading(false);
-                                }} type="submit">End</Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
                 </div>
 
             </div>
-
-        </div>
+        </React.StrictMode>
        
     )
 }
