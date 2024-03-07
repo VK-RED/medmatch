@@ -1,8 +1,19 @@
 import { Session } from "next-auth";
 import { z } from "zod";
 
+enum Role{
+    user,
+    agent,
+}
+
+const convoSchema = z.object({
+    role: z.nativeEnum(Role),
+    content:z.string()
+})
+
 export const endChatSchema = z.object({
     chatId: z.string(),
+    conversations: z.array(convoSchema),
 })
 
 export type EndChatType = z.infer<typeof endChatSchema>
