@@ -48,8 +48,6 @@ export default async function GetInterviewById(props:GetInterviewByIdProps) {
         }
     })
 
-    console.log(chat);
-
     if(!chat) redirect('/');
 
     return (
