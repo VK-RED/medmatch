@@ -28,11 +28,11 @@ export async function POST(req:NextRequest){
 
         // Create the conversations for the given chatId & userId
 
-        const isConvosCreated = await createConversations(conversations,chatId,session.user.email);
+        const isAllConvosCreated = await createAllConversations(conversations,chatId,session.user.email);
 
-        if(!isConvosCreated) throw new Error("Error in Creating Conversations !!!");
+        if(!isAllConvosCreated) throw new Error("Conversations Not created !!");
 
-        const chat = await prisma.chat.update({
+        await prisma.chat.update({
             where:{
                 id:chatId
             },
@@ -56,7 +56,7 @@ export async function POST(req:NextRequest){
     }
 }
 
-function createConversations(conversations:ConvoArrType, chatId:string,email:string):Promise<boolean>{
+function createAllConversations(conversations:ConvoArrType, chatId:string,email:string):Promise<boolean>{
 
     return new Promise(async (res,rej) => {
 
@@ -77,24 +77,47 @@ function createConversations(conversations:ConvoArrType, chatId:string,email:str
 
             const userId = user.id;
 
-            conversations.map( async (convo)=>{
+            for(const convo of conversations){
+                const res = await createConversation(convo,chatId,userId);
+                if(!res){
+                    throw new Error("Error in creating a Conversation !");
+                }
 
-                const newConvo = await prisma.conversation.create({
-                    data:{
-                        role: convo.role === Role.user ? 'user' : 'assistant',
-                        content: convo.content,
-                        chatId,
-                        userId,
-                    }
-                })
-    
-            });
+            }
     
             res(true);
             
         } catch (error) {
             console.log(error);
             rej(false);
+        }
+
+    })
+}
+
+function createConversation(convo:{role:Role,content:string}, chatId:string, userId:string) : (Promise<boolean>){
+
+    return new Promise(async (res,rej)=>{
+
+        try {
+            
+            const newConvo = await prisma.conversation.create({
+                data:{
+                    role: convo.role === Role.user ? 'user' : 'assistant',
+                    content: convo.content,
+                    chatId,
+                    userId,
+                }
+            });
+
+            console.log("The New Convo is : ")
+            console.log(newConvo);
+
+            res(true);
+
+        } catch (error) {
+            console.log(error);
+            rej(false)
         }
 
     })
