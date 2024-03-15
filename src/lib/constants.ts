@@ -15,3 +15,5 @@ export const SIGNIN_TITLE = `Login to your account`
 export const SIGNIN_DESCRIPTION =`Enter your email and password below`
 export const SIGNUP_TITLE = `Create an Account`
 export const SIGNUP_DESCRIPTION = `Enter your name, email and password`
+export const USER_EXISTS_ALREADY = `User Exists Already. Try Signing In !!`
+export const USER_CREATED = `User Created Successfully !!`
