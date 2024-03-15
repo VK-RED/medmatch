@@ -101,11 +101,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       setPassword("");
 
       if(res?.error){
-          toast({description:"Please enter valid email or password",variant:"destructive"})
-          setTimeout(() => {
-              router.push("/");
-          }, 2000);
-          
+          toast({description:"Please enter valid email or password",variant:"destructive"})        
           return;
       }
       else{
