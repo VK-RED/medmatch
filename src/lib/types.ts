@@ -13,6 +13,12 @@ const convoSchema = z.object({
 
 const convoArrSchema = z.array(convoSchema);
 
+export const registerSchema = z.object({
+    name:z.string().min(3).max(25),
+    email:z.string(),
+    password:z.string().min(8).max(16),
+})
+
 export type ConvoArrType = z.infer<typeof convoArrSchema>;
 
 export const endChatSchema = z.object({
