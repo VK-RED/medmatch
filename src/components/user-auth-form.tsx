@@ -11,6 +11,7 @@ import { AuthStatus, UserAuthFormProps } from "@/lib/types"
 import { signIn } from "next-auth/react"
 import { useToast } from "./ui/use-toast"
 import { useRouter, useSearchParams } from "next/navigation"
+import { USER_CREATED } from "@/lib/constants"
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -22,9 +23,73 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const {toast} = useToast();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl')||"/";
-  
+
+  function isValidEmail(email:string):(boolean) {
+    // Regular expression for email validation
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  function isCredentialsOk(type:'signin'|'signup'):(boolean){
+    if(type === 'signup'){
+
+      if(email == ""){
+        toast({
+          description:"Email field can't be empty !!",
+          variant:"destructive"
+        })
+        return false;
+      }
+      else if(name == ""){
+        toast({
+          description:"Email field can't be empty !!",
+          variant:"destructive"
+        })
+        return false;
+      }
+      else if(password == ""){
+        toast({
+          description:"Password field can't be empty !!",
+          variant:"destructive"
+        })
+        return false;
+      }
+
+    }
+    else{
+      if(email == ""){
+        toast({
+          description:"Email field can't be empty !!",
+          variant:"destructive"
+        })
+        return false;
+      }
+      else if(password == ""){
+        toast({
+          description:"Password field can't be empty !!",
+          variant:"destructive"
+        })
+        return false;
+      }
+
+    }
+
+    if(!isValidEmail(email)){
+      toast({
+        description:"Enter Valid Email Address !!",
+        variant:"destructive"
+      })
+      return false;
+    }
+
+    return true;
+  }
 
   async function handleSignin(){
+
+      const credResult = isCredentialsOk('signin');
+      if(!credResult) return;
+
       const res = await signIn('credentials',{
           redirect: false,
           email,
@@ -49,6 +114,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   async function handleSignup(){
+
+    const credResult = isCredentialsOk('signin');
+    if(!credResult) return;
+
     const body = {
       name,
       email,
@@ -64,13 +133,21 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     setEmail(""),
     setPassword("");
 
-    const data = await res.json();
+    const data:{message:string} = await res.json();
     const message = data.message;
-    toast({description:message});
 
-    setTimeout(()=>{
-      router.push('/ready');
-    },1000);
+    if(message === USER_CREATED){
+      toast({description:message});
+      setTimeout(()=>{
+        router.push('/ready');
+      },1000);
+    }
+    else{
+      toast({
+        description:message,
+        variant:'destructive'
+      })
+    }
 
   }
 
