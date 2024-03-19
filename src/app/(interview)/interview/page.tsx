@@ -17,7 +17,6 @@ import { INTERVIEW_ENDED, NO_INTERVIEW_EXISTS } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ILoader } from "@/components/iloader";
-import React from 'react';
 import { useRetell } from "@/hooks/useRetell";
 
 export default function InterviewPage(){
@@ -106,7 +105,7 @@ export default function InterviewPage(){
 
     return(
 
-        <React.StrictMode>
+        
             <div className="h-[90vh] w-screen flex flex-col items-center justify-center relative">
                 
                 <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 absolute top-10">
@@ -153,7 +152,7 @@ export default function InterviewPage(){
                 </div>
 
             </div>
-        </React.StrictMode>
+        
        
     )
 }
