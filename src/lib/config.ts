@@ -1,4 +1,3 @@
-export const agentId = "097774c506a77466ead9641e26e7c9eb";
+export const agentId = "b41b47654b0b7f15f580df872658a9cc";
 
-// TODO: This needs to be edited for production
-export const llmUrl = "http://localhost:8080"
+export const llmUrl = "https://medmatch-llm-api.vidged.com";
