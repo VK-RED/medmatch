@@ -5,6 +5,13 @@ import { redirect } from "next/navigation";
 import { InterviewerCard } from "@/components/interviewerCard";
 import { UserReplyCard } from "@/components/userReplyCard";
 import { authOptions } from "@/lib/authOptions"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Past Interview",
+    description: "Get detailed insights by seeing your past conversations",
+}
+  
 
 export default async function GetInterviewById(props:GetInterviewByIdProps) {
 
