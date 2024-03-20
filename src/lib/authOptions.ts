@@ -20,6 +20,9 @@ export const authOptions : NextAuthOptions = {
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        httpOptions:{
+          timeout:process.env.NODE_ENV === 'development' ? 10000 : 5000
+        }
       }),
       CredentialsProvider({
         // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -59,18 +62,13 @@ export const authOptions : NextAuthOptions = {
           
         }
       })
-      // ...add more providers here
+      
     ],
   
     secret: process.env.NEXTAUTH_SECRET as string,
   
     session: {
-      // Choose how you want to save the user session.
-      // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
-      // If you use an `adapter` however, we default it to `"database"` instead.
-      // You can still force a JWT session by explicitly defining `"jwt"`.
-      // When using `"database"`, the session cookie will only contain a `sessionToken` value,
-      // which is used to look up the session in the database.
+  
       strategy: "jwt" as SessionStrategy,
     
       // Seconds - How long until an idle session expires and is no longer valid.
@@ -87,14 +85,4 @@ export const authOptions : NextAuthOptions = {
         return randomUUID?.() ?? randomBytes(32).toString("hex")
       },
     },
-    // callbacks:{
-    //   async redirect({url,baseUrl}:{url:string,baseUrl:string}){
-    //     // console.log("The flow being affected !!!!!")
-    //     // console.log(url, "<------------- This has defined in the dashboard")
-    //     // console.log(baseUrl, "<------------- Base Url of the site")
-    //     return url.startsWith(baseUrl)
-    //       ? Promise.resolve(baseUrl+"/ready")
-    //       : Promise.resolve(baseUrl)
-    //   },
-    // }
   }
