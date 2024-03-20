@@ -22,7 +22,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const {toast} = useToast();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl')||"/";
 
   function isValidEmail(email:string):(boolean) {
     // Regular expression for email validation
@@ -94,7 +93,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           redirect: false,
           email,
           password,
-          callbackUrl,
       })
 
       setEmail(""),
@@ -105,7 +103,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           return;
       }
       else{
-          router.push(callbackUrl);
+          router.push('/');
       }
   }
 
@@ -135,7 +133,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     if(message === USER_CREATED){
       toast({description:message});
       setTimeout(()=>{
-        router.push('/ready');
+        router.push('/signin');
       },1000);
     }
     else{

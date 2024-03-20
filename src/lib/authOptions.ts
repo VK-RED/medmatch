@@ -87,14 +87,14 @@ export const authOptions : NextAuthOptions = {
         return randomUUID?.() ?? randomBytes(32).toString("hex")
       },
     },
-    callbacks:{
-      async redirect({url,baseUrl}:{url:string,baseUrl:string}){
-        // console.log("The flow being affected !!!!!")
-        // console.log(url, "<------------- This has defined in the dashboard")
-        // console.log(baseUrl, "<------------- Base Url of the site")
-        return url.startsWith(baseUrl)
-          ? Promise.resolve(baseUrl+"/ready")
-          : Promise.resolve(baseUrl)
-      },
-    }
+    // callbacks:{
+    //   async redirect({url,baseUrl}:{url:string,baseUrl:string}){
+    //     // console.log("The flow being affected !!!!!")
+    //     // console.log(url, "<------------- This has defined in the dashboard")
+    //     // console.log(baseUrl, "<------------- Base Url of the site")
+    //     return url.startsWith(baseUrl)
+    //       ? Promise.resolve(baseUrl+"/ready")
+    //       : Promise.resolve(baseUrl)
+    //   },
+    // }
   }
