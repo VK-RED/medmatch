@@ -31,7 +31,7 @@ export const Herocard = () => {
                         router.push("/signup");
                         return;
                       }
-                      router.push('/ready');
+                      router.push('/interview');
                       return;
                     }}
                   >
