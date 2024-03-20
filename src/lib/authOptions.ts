@@ -21,7 +21,7 @@ export const authOptions : NextAuthOptions = {
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         httpOptions:{
-          timeout:process.env.NODE_ENV === 'development' ? 10000 : 5000
+          timeout:process.env.NODE_ENV === 'development' ? 15000 : 5000
         }
       }),
       CredentialsProvider({
@@ -62,13 +62,18 @@ export const authOptions : NextAuthOptions = {
           
         }
       })
-      
+      // ...add more providers here
     ],
   
     secret: process.env.NEXTAUTH_SECRET as string,
   
     session: {
-  
+      // Choose how you want to save the user session.
+      // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+      // If you use an `adapter` however, we default it to `"database"` instead.
+      // You can still force a JWT session by explicitly defining `"jwt"`.
+      // When using `"database"`, the session cookie will only contain a `sessionToken` value,
+      // which is used to look up the session in the database.
       strategy: "jwt" as SessionStrategy,
     
       // Seconds - How long until an idle session expires and is no longer valid.
@@ -85,4 +90,9 @@ export const authOptions : NextAuthOptions = {
         return randomUUID?.() ?? randomBytes(32).toString("hex")
       },
     },
+    callbacks:{
+      async redirect({baseUrl}:{baseUrl:string}){
+        return Promise.resolve(baseUrl)
+      },
+    }
   }
