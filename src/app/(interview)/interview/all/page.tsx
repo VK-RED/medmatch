@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { InterviewCard } from '@/components/interviewCard';
+import { AllInterviewsLoader } from '@/components/allInterviewsLoader';
 export default function AllInterviews(){
 
     const {status} = useSession();
@@ -37,9 +38,7 @@ export default function AllInterviews(){
     } 
 
     if(status === 'loading' || loading){
-        return <div>
-            Loading ....
-        </div>
+        return <AllInterviewsLoader />
     }
 
     return (
