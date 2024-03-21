@@ -21,11 +21,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [password,setPassword] = React.useState("");
   const router = useRouter();
   const {toast} = useToast();
-  const searchParams = useSearchParams();
-
-  React.useEffect(()=>{
-    console.log("LoDING IS CHANGED!!"+isLoading)
-  },[isLoading])
 
   function isValidEmail(email:string):(boolean) {
     // Regular expression for email validation
@@ -240,10 +235,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </span>
             </div>
           </div>
-          <Button onClick={()=>{
-            setIsLoading(true);
-            signIn('google');
-            setIsLoading(false);
+          <Button onClick={async ()=>{
+            setIsLoading((p)=>true);
+            await signIn('google');
+            setIsLoading((p)=>false);
           }}
             variant="outline" type="button" disabled={isLoading}>
             {isLoading ? (
