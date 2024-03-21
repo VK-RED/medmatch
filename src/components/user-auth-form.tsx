@@ -130,7 +130,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const message = data.message;
 
     if(message === USER_CREATED){
-      toast({description:message});
+      toast({description:message+" Kindly login again !"});
       setTimeout(()=>{
         router.push('/signin');
       },1000);
