@@ -23,6 +23,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const {toast} = useToast();
   const searchParams = useSearchParams();
 
+  React.useEffect(()=>{
+    console.log("LoDING IS CHANGED!!"+isLoading)
+  },[isLoading])
+
   function isValidEmail(email:string):(boolean) {
     // Regular expression for email validation
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -147,16 +151,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   async function onSubmit(event: React.SyntheticEvent) {
 
-    event.preventDefault()
-    setIsLoading(true)
-
+    event.preventDefault();
+    setIsLoading((p)=>true);
     if(authStatus === AuthStatus.Signup){
-      handleSignup();
+      await handleSignup();
+      setIsLoading((p)=>false);
     }
     else{
-      handleSignin();
+      await handleSignin();
+      setIsLoading((p)=>false);
     }
-    setIsLoading(false);
   }
 
   return (
@@ -237,7 +241,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </div>
           </div>
           <Button onClick={()=>{
+            setIsLoading(true);
             signIn('google');
+            setIsLoading(false);
           }}
             variant="outline" type="button" disabled={isLoading}>
             {isLoading ? (
