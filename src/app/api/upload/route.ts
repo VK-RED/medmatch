@@ -5,6 +5,8 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
+import fs from "fs";
+import {parse} from 'csv-parse';
 
 /*
     - Get the file from the client
@@ -18,70 +20,80 @@ export async function POST(req:NextRequest){
 
     try {
 
-        const session = await getServerSession(authOptions);
-        if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
-
-        // get the email
-        const email = session.user.email;
-
-        // get the user and Id
-        const user = await prisma.user.findFirst({
-            where:{
-                email,
-            },
-            select:{
-                id:true,
-                chats:true,
-            }
-        })
-
-        if(!user || !user.id) return NextResponse.json({message:USER_NOT_EXISTS});
-
         const formData = await req.formData();
 
-        const csvfile = formData.get('csvfile') as Blob;
+        const csvfile = formData.get('csvfile') as File;
+
+        console.log(csvfile);
 
         
 
-        /* TODO:  PARSE THE FILE AND GET BACK THE FILE DETAILS */
+        return NextResponse.json({message:"File has been received !!"})
 
-        const fileDetails = "This is a Sample data extracted from the Uploaded file ";
+        // const session = await getServerSession(authOptions);
+        // if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
 
+        // // get the email
+        // const email = session.user.email;
 
+        // // get the user and Id
+        // const user = await prisma.user.findFirst({
+        //     where:{
+        //         email,
+        //     },
+        //     select:{
+        //         id:true,
+        //         chats:true,
+        //     }
+        // })
 
+        // if(!user || !user.id) return NextResponse.json({message:USER_NOT_EXISTS});
 
+        // const formData = await req.formData();
 
+        // const csvfile = formData.get('csvfile') as Blob;
 
-        const prompt = "ROLE"+ fileDetails + "BEHAVIOUR";
-
-        // create a new chat get the id and title
         
-        const chat = await prisma.chat.create({
-            data:{
-                title:`Interview ${user.chats.length + 1}`,
-                userId: user.id,
-            },
-            select:{
-                id : true,
-                title:true,
-            }
-        })
 
-        // Create the convo with the created the prompt
-        const convo = await prisma.conversation.create({
-            data:{
-                role:'system',
-                content:prompt,
-                chatId:chat.id,
-                userId:user.id
-            },
-            select:{
-                role:true,
-                content:true,
-            }
-        })
+        // /* TODO:  PARSE THE FILE AND GET BACK THE FILE DETAILS */
 
-        return NextResponse.json({message:INTERVIEW_INITIALIZED,chatId:chat.id})
+        // const fileDetails = "This is a Sample data extracted from the Uploaded file ";
+
+
+
+
+
+
+        // const prompt = "ROLE"+ fileDetails + "BEHAVIOUR";
+
+        // // create a new chat get the id and title
+        
+        // const chat = await prisma.chat.create({
+        //     data:{
+        //         title:`Interview ${user.chats.length + 1}`,
+        //         userId: user.id,
+        //     },
+        //     select:{
+        //         id : true,
+        //         title:true,
+        //     }
+        // })
+
+        // // Create the convo with the created the prompt
+        // const convo = await prisma.conversation.create({
+        //     data:{
+        //         role:'system',
+        //         content:prompt,
+        //         chatId:chat.id,
+        //         userId:user.id
+        //     },
+        //     select:{
+        //         role:true,
+        //         content:true,
+        //     }
+        // })
+
+        // return NextResponse.json({message:INTERVIEW_INITIALIZED,chatId:chat.id})
 
     } catch (error) {
         if(error instanceof ZodError){
