@@ -1,13 +1,13 @@
 'use client'
 
+import { Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 
-export const CsvDropZone = () => {
+export const CsvDropZone = ({setCsvfile}:{setCsvfile:Dispatch<SetStateAction<File | null>>}) => {
 
     const onDrop = (acceptedFiles:File[]) => {
-        acceptedFiles.forEach((file) => {
-            console.log(file);
-        });
+        const csvFile = acceptedFiles[0];
+        setCsvfile((p)=>csvFile);
     };  
 
     const { getRootProps, getInputProps } = useDropzone({
