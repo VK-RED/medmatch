@@ -64,6 +64,9 @@ yarn studio
 
 After running the command check http://localhost:5555 to see the DB models
 
+## Currently on Cards
+
+- Building a Feature where users can upload a CSV file and get a personalized interview based on the uploaded document.
 
 ## What's inside
 
