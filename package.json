@@ -38,6 +38,7 @@
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "openai": "^4.25.0",
+    "pdf-parse": "^1.1.1",
     "react": "^18",
     "react-audio-visualize": "^1.1.3",
     "react-dom": "^18",
