@@ -7,26 +7,27 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import fs from "fs";
 import {parse} from 'csv-parse';
+import { createVectorStore } from "@/langchain/vectorStore";
+import { createChain } from "@/langchain/chain";
 
-/*
-    - Get the file from the client
-    - Parse it and get the file details
-    - Prepare the Prompt from the file details and Predefined Text and Behaviours
-    - Create a New Interview
-    - Send the Conversation and the chatId
-*/
 
 export async function POST(req:NextRequest){
 
     try {
 
         const formData = await req.formData();
+        const file = formData.get('file') as File;
 
-        const csvfile = formData.get('csvfile') as File;
+        const vectorStore = await createVectorStore(file);
+        const chain = await createChain(vectorStore);
 
-        console.log(csvfile);
-
-        
+        /*
+            NEXT STEPS:
+                - INITIALIZE THE INTERVIEW AND GET THE ID
+                - STORE THE CHAIN WITH KEY AS INTERVIEWID IN CACHE
+                - STORE THE [] WITH KWY AS INTERVIEWID IN CACHE
+                - RETURN THE INTERVIEW ID
+        */
 
         return NextResponse.json({message:"File has been received !!"})
 
