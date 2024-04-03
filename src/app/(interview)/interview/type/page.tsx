@@ -6,16 +6,16 @@ import { useEffect, useState } from "react"
 
 export default function InterviewTypePage(){
 
-    const[csvfile,setCsvfile] = useState<File|null>(null);
+    const[file,setFile] = useState<File|null>(null);
 
     useEffect(()=>{
-        console.log(csvfile);
-    },[csvfile])
+        console.log(file);
+    },[file])
 
     const sendFile = async()=>{
-        if(!csvfile) return;
+        if(!file) return;
         const formData = new FormData();
-        formData.append('csvfile',csvfile);
+        formData.append('file',file);
         const res = await fetch("/api/upload",{
             method:'POST',
             body:formData,
@@ -25,7 +25,7 @@ export default function InterviewTypePage(){
     
     return (
         <div>
-            <CsvDropZone setCsvfile={setCsvfile}/>
+            <DropZone setFile={setFile}/>
             <div>
                 <Button onClick={sendFile}>SEND</Button>
             </div>
