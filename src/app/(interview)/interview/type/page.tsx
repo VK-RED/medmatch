@@ -1,6 +1,6 @@
 'use client'
 
-import { CsvDropZone } from "@/components/dropzone"
+import { DropZone } from "@/components/dropzone"
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react"
 

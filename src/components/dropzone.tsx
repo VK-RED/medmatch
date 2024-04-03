@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 
-export const CsvDropZone = ({setCsvfile}:{setCsvfile:Dispatch<SetStateAction<File | null>>}) => {
+export const DropZone = ({setCsvfile}:{setCsvfile:Dispatch<SetStateAction<File | null>>}) => {
 
     const onDrop = (acceptedFiles:File[]) => {
         const csvFile = acceptedFiles[0];
