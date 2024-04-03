@@ -13,7 +13,8 @@ export const CsvDropZone = ({setCsvfile}:{setCsvfile:Dispatch<SetStateAction<Fil
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept:{
-            'text/csv' : ['.csv'], // accept only CSV files
+            'text/csv' : ['.csv'], 
+            'application/pdf' : ['.pdf']
         }
     });
 
@@ -23,7 +24,7 @@ export const CsvDropZone = ({setCsvfile}:{setCsvfile:Dispatch<SetStateAction<Fil
         <div className='flex flex-col mt-20 items-center  cursor-pointer border border-red-500'>
             <div className="text-red-200" {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drop your CSV files or click to select files</p>
+                <p>Drop your files or click to select files</p>
             </div>
         </div>
     );
