@@ -1,3 +1,5 @@
+import { HumanMessage, AIMessage } from "@langchain/core/messages";
+
 declare global{
     var instance:Cache;
 }
@@ -61,4 +63,31 @@ export class Cache{
         }
         return {message:"Chain removed successfully from the Cache !"}
     }
+
+    // get and delete methods for convoArrCache
+
+    getConvoArr(key:string){
+
+        let convoArr = this.convoCache.get(key);
+        if(!convoArr){
+            convoArr = this.convoCache.set(key,[]);
+        }
+
+        return convoArr;
+    }
+
+    updateConvoArr(key:string,HUMAN_MESSAGE:HumanMessage,AI_MESSAGE:AIMessage){
+        let convoArr = this.getConvoArr(key);
+        convoArr.push(HUMAN_MESSAGE);
+        convoArr.push(AI_MESSAGE);
+    }
+
+    removeConvoArr(key:string){
+        const isDeleted = this.convoCache.delete(key);
+        if(!isDeleted){
+            console.log("The given convoArr is not present, So not Deleted !!");
+            return {message:"No such convoArr found to delete !"};
+        }
+        return {message:"ConvoArr removed successfully from the Cache !"};
+    }   
 }
