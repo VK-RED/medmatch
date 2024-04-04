@@ -1,15 +1,16 @@
-import { CHAT_COMPLETED, NO_INTERVIEW_EXISTS, RESPONSE_MISSING, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
+import { CHAT_COMPLETED, NO_INTERVIEW_EXISTS, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/lib/authOptions"
-
+import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { ChatResponse, CreateAudioOutput } from "@/lib/types";
 import { openai } from "@/lib/openai";
 import { ZodError } from "zod";
 import fs from "fs";
 import { Readable } from "stream";
 import { createAudioFile } from "@/lib/audio";
+import { Cache } from "@/db/Cache";
 
 
 export async function POST(req:NextRequest): Promise<NextResponse<ChatResponse>> 
@@ -75,16 +76,7 @@ export async function POST(req:NextRequest): Promise<NextResponse<ChatResponse>>
 
         console.log(transcription.text);
 
-        // only allow convo if the chat is not completed
-        // create new convo
-        const newConvo = await prisma.conversation.create({
-            data:{
-                content: transcription.text,
-                role: 'user',
-                userId: user.id,
-                chatId 
-            }
-        })
+        const userMessage = transcription.text;
 
         // Delete the file once it's been sent to openai
         if(fs.existsSync(audioPath)){
@@ -92,54 +84,40 @@ export async function POST(req:NextRequest): Promise<NextResponse<ChatResponse>>
             fs.unlinkSync(audioPath);
         }
 
-        //get all convos for the chatId
-        const allConvos = await prisma.conversation.findMany({
-            where:{
-                chatId,
-            },
-            orderBy:{
-                createdAt:"asc"
-            },
-            select:{
-                role: true,
-                content: true,
-            }
+        
+        //Get the chain and the conversations from local Cache
+
+        const cache = Cache.getInstance();
+
+        const chain = cache.getChain(chatId);
+        const chatHistory = cache.getConvoArr(chatId)
+
+        //@ts-ignore
+        const langRes = await chain.invoke({
+            chat_history : chatHistory,
+            input:userMessage,
         })
 
-        const completion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: allConvos
-        });
+        //@ts-ignore
+        const res : string = langRes.answer;
 
-        const res = completion.choices[0].message.content || RESPONSE_MISSING;
+        const HUMAN_MESSAGE = new HumanMessage(userMessage);
+        const AI_MESSAGE = new AIMessage(res);
 
-        if(res ===RESPONSE_MISSING){
-            console.log(RESPONSE_MISSING);
-            throw new Error(RESPONSE_MISSING);
-        }
+        cache.updateConvoArr(chat.id,HUMAN_MESSAGE,AI_MESSAGE);
 
-        // create a new convo for the openAI result and return it back
-        const resConvo = await prisma.conversation.create({
-            data:{
-                content: res,
-                role: 'system',
-                userId: user.id,
-                chatId 
-            }
-        })  
-
-        //send the gpt response and get back an audio buffer/blob
+        //send the langchain response and get back an audio buffer/blob
 
         const audio = await openai.audio.speech.create({
             model: "tts-1",
             voice: "alloy",
-            input: resConvo.content,
+            input: res,
         });
         const buffer = Buffer.from(await audio.arrayBuffer());
         const audioBase64 = buffer.toString('base64');
         const audioUri = `data:audio/mp3;base64,${audioBase64}`;
 
-        return NextResponse.json({message:resConvo.content, audioUri})
+        return NextResponse.json({message:res, audioUri})
 
     } catch (error) {
 
