@@ -1,3 +1,4 @@
+import { ChainHistoryArr, ChainType } from "@/lib/types";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
 
 declare global{
@@ -13,8 +14,8 @@ export class Cache{
     //TODO : make the types strict for chaincache and convocache
 
     static instance : Cache;
-    private chainCache : Map<string,any>;
-    private convoCache : Map<string,any>;
+    private chainCache : Map<string,ChainType>;
+    private convoCache : Map<string,ChainHistoryArr>;
     
     private constructor(){
         this.chainCache = new Map();
@@ -68,16 +69,17 @@ export class Cache{
 
     getConvoArr(key:string){
 
-        let convoArr = this.convoCache.get(key);
-        if(!convoArr){
-            convoArr = this.convoCache.set(key,[]);
-        }
+        const convoArr = this.convoCache.get(key);
+        if(convoArr) return convoArr;
 
-        return convoArr;
+        const baseArr:ChainHistoryArr = []
+        this.convoCache.set(key,baseArr);
+        return baseArr;
+        
     }
 
     updateConvoArr(key:string,HUMAN_MESSAGE:HumanMessage,AI_MESSAGE:AIMessage){
-        let convoArr = this.getConvoArr(key);
+        const convoArr = this.getConvoArr(key);
         convoArr.push(HUMAN_MESSAGE);
         convoArr.push(AI_MESSAGE);
     }
