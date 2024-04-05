@@ -55,7 +55,7 @@ export async function POST(req:NextRequest){
         cache.setChain(chat.id,chain); 
         
 
-        return NextResponse.json({message:INTERVIEW_INITIALIZED,chatId:chat.id})
+        return NextResponse.json({message:INTERVIEW_INITIALIZED,chatId:chat.id, title:user.chats.length + 1})
 
     } catch (error) {
         console.log(error);
