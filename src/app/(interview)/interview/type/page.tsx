@@ -1,12 +1,13 @@
 'use client'
-
 import { DropZone } from "@/components/dropzone"
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
 
 export default function InterviewTypePage(){
 
     const[file,setFile] = useState<File|null>(null);
+    const router = useRouter();
 
     useEffect(()=>{
         console.log(file);
@@ -20,7 +21,8 @@ export default function InterviewTypePage(){
             method:'POST',
             body:formData,
         })
-        console.log(await res.json());
+        const {chatId,title} = await res.json();
+        router.push(`/interview/personalised/${title}/${chatId}`)
     }
     
     return (
