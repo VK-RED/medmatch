@@ -1,3 +1,5 @@
+import { createChain } from "@/langchain/chain";
+import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { Session } from "next-auth";
 import { z } from "zod";
 
@@ -96,3 +98,7 @@ export type RetellConvoType = [{role:'user'|'agent', content:string}];
 export interface RetellUpdateType{
     transcript : RetellConvoType
 }
+
+export type ChainType = Awaited<ReturnType<typeof createChain>>;
+
+export type ChainHistoryArr = (AIMessage|HumanMessage)[];
