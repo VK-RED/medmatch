@@ -1,6 +1,6 @@
 import { Cache } from "@/db/Cache";
 import { authOptions } from "@/lib/authOptions";
-import { SOMETHING_WENT_WRONG, USER_NOT_LOGGED_IN } from "@/lib/constants";
+import { SOMETHING_WENT_WRONG, USER_FIRST_MESSAGE, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
@@ -28,7 +28,7 @@ export async function POST(req:NextRequest){
             throw new Error("Chain not found in the Cache for the given Id !");
         }
 
-        const userMessage = "You can start asking the questions !";
+        const userMessage = USER_FIRST_MESSAGE;
 
         const langRes = await chain.invoke({
             chat_history : chatHistory,
