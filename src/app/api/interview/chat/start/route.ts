@@ -11,7 +11,7 @@ export async function POST(req:NextRequest){
     //TODO : ADD ZOD VALIDATIONS
 
     try {
-
+        
         const session = await getServerSession(authOptions);
         if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
 
@@ -24,15 +24,17 @@ export async function POST(req:NextRequest){
         const chain = cache.getChain(chatId);
         const chatHistory = cache.getConvoArr(chatId)
 
+        if(!chain){
+            throw new Error("Chain not found in the Cache for the given Id !");
+        }
+
         const userMessage = "You can start asking the questions !";
 
-        //@ts-ignore
         const langRes = await chain.invoke({
             chat_history : chatHistory,
             input:userMessage,
         })
 
-        //@ts-ignore
         const res : string = langRes.answer;
 
         const HUMAN_MESSAGE = new HumanMessage(userMessage);
