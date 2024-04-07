@@ -4,11 +4,14 @@ import { Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 import { Icons } from "./icons";
 
-export const DropZone = ({setFile}:{setFile:Dispatch<SetStateAction<File | null>>}) => {
+export const DropZone = ({setFile,setDisabled,setFileName}:{setFile:Dispatch<SetStateAction<File | null>>, setDisabled:Dispatch<SetStateAction<boolean>>,
+setFileName: Dispatch<SetStateAction<string>>}) => {
 
     const onDrop = (acceptedFiles:File[]) => {
-        const csvFile = acceptedFiles[0];
-        setFile((p)=>csvFile);
+        const file = acceptedFiles[0];
+        setFile((p)=>file);
+        setDisabled((p)=>false);
+        setFileName((p)=>file.name)
     };  
 
     const { getRootProps, getInputProps } = useDropzone({
@@ -22,7 +25,7 @@ export const DropZone = ({setFile}:{setFile:Dispatch<SetStateAction<File | null>
 
     return (
 
-        <div className=" flex flex-col items-center max-w-3xl border-2 border-dashed border-gray-400 mx-auto py-20 px-10 text-center bg-muted cursor-pointer gap-2 rounded-2xl outline-none mt-20" {...getRootProps()}>
+        <div className=" flex flex-col w-full items-center max-w-3xl border-2 border-dashed border-gray-400 mx-auto py-20 px-10 text-center bg-muted cursor-pointer gap-2 rounded-2xl outline-none" {...getRootProps()}>
             <input {...getInputProps()} />
             <Icons.cloudUpload/>
             <p className="font-bold text-slate-500 dark:text-gray-300" >Drag files to Upload or Click here</p>
