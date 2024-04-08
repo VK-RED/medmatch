@@ -25,7 +25,7 @@ export default function PersonalisedInterview(){
 
     const {title,id} = useParams<{ title: string; id: string }>()
     const { status } = useSession()
-    const {startRecording, stopRecording, isrecording, formData} = useRecording();
+    const {startRecording, stopRecording, isrecording, formData, endStream} = useRecording();
     const [iResponse,setIresponse] = useState("");
     const {toast} = useToast();
     const router = useRouter();
@@ -82,10 +82,8 @@ export default function PersonalisedInterview(){
         audio.play();
     }
 
-    // TODO : Fix the End Interview
-
     async function endInterview(){
-
+        endStream();
         const body = {chatId:id};
         const res = await fetch('/api/interview/chat/end',{
             method:'POST',
