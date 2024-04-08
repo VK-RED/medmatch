@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons";
 import { TypePageLoader } from "@/components/typePageLoader";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { INTERVIEW_INITIALIZATION_FAILED, INTERVIEW_INITIALIZED, TRY_LATER } from "@/lib/constants";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react"
@@ -42,9 +43,19 @@ export default function InterviewTypePage(){
             method:'POST',
             body:formData,
         })
-        const {chatId,title} = await res.json();
+        const {message,title,chatId} : {message:string, title?:string, chatId?:string} = await res.json();
         setLoading((p)=>false);
-        router.push(`/interview/personalised/${title}/${chatId}`)
+
+        if(message === INTERVIEW_INITIALIZATION_FAILED){
+            toast({title:TRY_LATER});
+        }
+        else{
+            toast({title:INTERVIEW_INITIALIZED});
+            setTimeout(()=>{
+                router.push(`/interview/personalised/${title}/${chatId}`)
+            },500);
+        }
+        
     }
 
     if(status === 'loading'){
