@@ -5,13 +5,12 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { chatModel } from "@/lib/openai";
 import { createRetrievalChain } from "langchain/chains/retrieval";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { LANGCHAIN_SYSTEM_PROMPT } from "@/lib/constants";
 
 export const createChain = async (vectorStore:MemoryVectorStore) =>{
-
-    // TODO : EDIT THE PROMPT 
     
     const prompt = ChatPromptTemplate.fromMessages([
-        ["system", "You are an Assitant and answer based on the context. Context:{context}"],
+        ["system", LANGCHAIN_SYSTEM_PROMPT],
         new MessagesPlaceholder('chat_history'),
         ["user", "{input}"],
     ]);
