@@ -19,7 +19,7 @@ import { signIn, signOut, useSession } from "next-auth/react"
 export const AvatarToggler = () => {
 
     const {data: session,status} = useSession();
-    const imgUrl = session?.user?.image || "shad.jpeg";
+    const imgUrl = session?.user?.image || "/shad.jpeg";
     return (
         <div>
             <DropdownMenu>

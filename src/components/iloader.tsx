@@ -13,7 +13,7 @@ export const ILoader = () => {
                 </div>
                 <span>
                     <Avatar className="w-8 h-8 order-2 ml-4">
-                        <AvatarImage src="shad.jpeg" />
+                        <AvatarImage src="/shad.jpeg" />
                         <AvatarFallback>AI</AvatarFallback>
                     </Avatar>
                 </span>
