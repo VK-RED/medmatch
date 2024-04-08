@@ -62,12 +62,21 @@ const useRecording = () => {
         }
     }
 
+    const endStream = () => {
+        if(mediaRecorder?.stream){
+            mediaRecorder.stream.getTracks().forEach((track)=>{
+                track.stop();
+            })
+        }
+    }
+
     return  {
         isrecording,    
         startRecording,
         stopRecording,
         formData: formRef.current,
         audioBlob,
+        endStream,
     }
 
 }
