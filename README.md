@@ -5,6 +5,7 @@
 
 - [Next.js](https://nextjs.org/)                 - Framework
 - [TypeScript](https://www.typescriptlang.org/)  - Language
+- [Langchain](https://js.langchain.com/docs/get_started/introduction) - LLM Framework.
 - [Prisma](https://www.prisma.io/)               - ORM
 - [NextAuth.js](https://next-auth.js.org/)       - Authentication
 - [PostgreSql](https://www.postgresql.org/)      - Database
@@ -64,15 +65,13 @@ yarn studio
 
 After running the command check http://localhost:5555 to see the DB models
 
-## Currently on Cards
-
-- Building a Feature where users can upload a CSV file and get a personalized interview based on the uploaded document.
-
 ## What's inside
 
 - The `src/app` folder contains the next app.
 - The `src/components` folder contains all the ui components.
+- The `src/db` folder  contains the code for local Cache.
 - The `src/hooks` folder contains hooks for sending response to llm server.
+- The `src/langchain` folder contains vectorStore and chains.
 - The `src/lib` folder contains some auxilary files like types, authOptions ....
 - The `prisma` folder contains the Schema and Migrations.
 
