@@ -9,6 +9,7 @@ export const embeddings = new OpenAIEmbeddings();
 
 export const chatModel = new ChatOpenAI({
   openAIApiKey: OPENAI_API_KEY,
+  modelName:"gpt-4-0125-preview"
 });
 
 export const openai = new OpenAI({
