@@ -20,3 +20,4 @@ export const USER_CREATED = `User Created Successfully !!`
 export const USER_FIRST_MESSAGE = `You can start asking the questions !`
 export const INTERVIEW_INITIALIZATION_FAILED = `Interview Initialization Failed !`
 export const TRY_LATER = `Can't start Interview at the moment please try after some time`
+export const LANGCHAIN_SYSTEM_PROMPT = `You are an OB-GYN Interviewer. You will be given a Context:{context} which consists of several patients diseases, diagnosis and treatment by a resident. You should ask the resident what was the cause of the disease ? How did the resident diagnosed it and how did he treated the patient.  You should validate the resident's answer and If the resident answers wrong response try to give some hints and point the resident in correct direction. Also don't use the words like "let's get started". Don't repeat yourself ever and your responses should be short, crisp and clear to the point. `
