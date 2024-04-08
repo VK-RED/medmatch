@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/authOptions";
-import { INTERVIEW_INITIALIZED, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
+import { INTERVIEW_INITIALIZATION_FAILED, INTERVIEW_INITIALIZED, SOMETHING_WENT_WRONG, USER_NOT_EXISTS, USER_NOT_LOGGED_IN } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -59,7 +59,7 @@ export async function POST(req:NextRequest){
 
     } catch (error) {
         console.log(error);
-        throw new Error(SOMETHING_WENT_WRONG);
+        return NextResponse.json({message:INTERVIEW_INITIALIZATION_FAILED});
     }
     
 }
