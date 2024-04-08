@@ -3,15 +3,21 @@
 import { Dispatch, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 import { Icons } from "./icons";
+import { useToast } from "./ui/use-toast";
 
 export const DropZone = ({setFile,setDisabled,setFileName}:{setFile:Dispatch<SetStateAction<File | null>>, setDisabled:Dispatch<SetStateAction<boolean>>,
 setFileName: Dispatch<SetStateAction<string>>}) => {
+
+    const {toast} = useToast();
 
     const onDrop = (acceptedFiles:File[]) => {
         const file = acceptedFiles[0];
         setFile((p)=>file);
         setDisabled((p)=>false);
         setFileName((p)=>file.name)
+        toast({
+            title:"File Uploaded Successfully !!"
+        })
     };  
 
     const { getRootProps, getInputProps } = useDropzone({
