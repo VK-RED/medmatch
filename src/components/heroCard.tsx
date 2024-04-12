@@ -31,7 +31,21 @@ export const Herocard = () => {
               Ace your Obstetrics and Gynecology Interviews with our platform.
           </h1>
 
-          <Button
+          <div className="flex items-center space-x-8">
+              {
+                status === 'authenticated' &&
+                <Button
+                  className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300 cursor-pointer my-10"
+                  onClick={()=>{
+                  router.push('/demo');
+                  return;
+                  }}
+              >
+                  {`Try for free`}
+              </Button>
+              }
+
+            <Button
               className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300 cursor-pointer my-10"
               onClick={()=>{
               if(status === 'unauthenticated'){
@@ -41,9 +55,14 @@ export const Herocard = () => {
               router.push('/interview/type');
               return;
               }}
-          >
-              {status === 'authenticated' ? 'Get Started' : 'Sign up'}
-          </Button>
+              >
+                {status === 'authenticated' ? 'Get Started' : 'Sign up'}
+            </Button>
+          </div>
+
+          
+
+          
       </>
   )
 }
