@@ -1,6 +1,7 @@
 import { createChain } from "@/langchain/chain";
 import { HumanMessage, AIMessage } from "@langchain/core/messages";
 import { Session } from "next-auth";
+import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 
 export enum Role{
@@ -102,3 +103,12 @@ export interface RetellUpdateType{
 export type ChainType = Awaited<ReturnType<typeof createChain>>;
 
 export type ChainHistoryArr = (AIMessage|HumanMessage)[];
+
+export interface InterviewComponentProps{
+    title : string,
+    isIntStarted : boolean,
+    agentResponse: string,
+    loading: boolean, 
+    setLoading:  Dispatch<SetStateAction<boolean>>,
+    endInterview? : (() => void )|(() => Promise<void>),
+}
