@@ -1,0 +1,12 @@
+import { Navbar } from "@/components/navbar";
+import { ChildrenProps } from "@/lib/types";
+import React from "react";
+
+export default function InterviewLayout({children}:ChildrenProps) {
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  )
+}
