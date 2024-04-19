@@ -412,10 +412,6 @@ export function GlobeCard() {
           className="div"
         >
         
-          <p className="text-center text-base md:text-lg font-medium text-gray-700 dark:text-gray-400 max-w-md mt-2 mx-auto">
-            Experience Medmatch that prepares you for success. Our AI-powered interview simulations,
-            give you the confidence to shine.
-          </p>
         </motion.div>
         <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
         <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
