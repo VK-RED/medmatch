@@ -4,11 +4,27 @@ import { useRouter } from "next/navigation"
 import { Button } from "./ui/button"
 import { useSession } from "next-auth/react";
 import { TypewriterEffectSmooth } from "./ui/typewriter-effect";
+import { InterviewerCard } from "./interviewerCard";
+import { useEffect, useState } from "react";
+import { DemoInterviewCard } from "./demoInterviewCard";
+import { isPaidUser } from "@/actions/user/isPaid";
 
 export const Herocard = () => {
 
     const router = useRouter();
-    const {status} = useSession();
+    const {status,data:session} = useSession();
+    const [isDemoStarted,setIsDemoStarted] = useState(false);
+    const [isPaid,setIsPaid] = useState(false);
+
+    useEffect(()=>{
+      if(status === 'authenticated'){
+        (async ()=>{
+          const res = await isPaidUser(session.user?.email);
+          setIsPaid((p)=>res)
+        })()
+      }
+      
+    },[status])
 
     const words = [
       {
@@ -32,28 +48,24 @@ export const Herocard = () => {
           </h1>
 
           <div className="flex items-center space-x-8">
-              {
-                status === 'authenticated' &&
-                <Button
-                  className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300 cursor-pointer my-10"
-                  onClick={()=>{
-                  router.push('/demo');
-                  return;
-                  }}
-              >
-                  {`Try for free`}
-              </Button>
-              }
 
             <Button
               className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300 cursor-pointer my-10"
               onClick={()=>{
-              if(status === 'unauthenticated'){
-                  router.push("/signup");
-                  return;
-              }
-              router.push('/interview/type');
-              return;
+                if(status === 'unauthenticated'){
+                    router.push("/signup");
+                    return;
+                }
+                else{
+                  if(!isPaid){
+                    router.push("/pricing");
+                    return;
+                  }
+                  else{
+                    router.push("/interview/type");
+                    return;
+                  }
+                }
               }}
               >
                 {status === 'authenticated' ? 'Get Started' : 'Sign up'}
@@ -61,7 +73,27 @@ export const Herocard = () => {
           </div>
 
           
+          {
+            (status==='unauthenticated' || status === 'authenticated'&& !isPaid ) && 
 
+            <div className="mt-3">
+              {
+                !isDemoStarted
+                ?(
+                  <div className="flex flex-col items-center space-y-2">
+                    <InterviewerCard text={`Hey can we get started with the Demo Interview ?`}/>
+                    <Button onClick={()=>{
+                      setIsDemoStarted((p)=>true)
+                    }}>
+                      {`Start my demo`}
+                    </Button> 
+                  </div>
+                
+                )
+                :<DemoInterviewCard setIsDemoStarted={setIsDemoStarted} isDemoStarted={isDemoStarted}/>
+              }
+            </div>
+          }
           
       </>
   )
