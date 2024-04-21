@@ -11,7 +11,7 @@ export const Features = () => {
                     <div className="space-y-2">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Features</h2>
                         <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                            Unlock the secrets to acing your OB-GYN Interviews with the personalized AI Experience.
+                            Custom exam-level vignettes created by Harvard Med OBGYN Faculty.
                         </p>
                     </div>
                 </div>
@@ -24,25 +24,25 @@ export const Features = () => {
                         </div>
                     
                         <p className="text-gray-500 dark:text-gray-400 text-center">
-                            Gain experience with our tailored realistic Interview scenarios.
+                            Speak like you're talking to a real human interviewer
                         </p>
                     </div>
                     <div className="flex flex-col justify-center space-y-4">
                         <div className='flex items-center gap-3 mx-auto'>
                             <PackageOpen />
-                            <h3 className="text-2xl font-bold">Interview  Archive</h3>
+                            <h3 className="text-2xl font-bold">Get Interviewed on your case list</h3>
                         </div>
                         <p className="text-gray-500 dark:text-gray-400 text-center">
-                            Revisit each questionnaire and review your responses, empowering you to reflect on your progress and refine your interview strategies. 
+                            Get Tailored Board-level questions on your case list PDF
                         </p>
                     </div>
                     <div className="flex flex-col justify-center space-y-4">
                         <div className='flex items-center gap-3 mx-auto'>
                             <LibraryBig />
-                            <h3 className="text-2xl font-bold">Medical Knowledge Base</h3>
+                            <h3 className="text-2xl font-bold">Get control of your time</h3>
                         </div>
                         <p className="text-gray-500 dark:text-gray-400 text-center">
-                            Access a comprehensive library of OB-GYN information to enhance your knowledge.
+                            Practice at any hour of the day, whenever you have down time
                         </p>
                     </div>
                     <div className="flex flex-col justify-center space-y-4">
@@ -51,7 +51,7 @@ export const Features = () => {
                             <h3 className="text-2xl font-bold">Mock Interviews</h3>
                         </div>
                         <p className="text-gray-500 dark:text-gray-400 text-center">
-                            Practice with our library of mock interviews and build confidence.
+                            Learn from Harvard Med attending level questions, without worrying about failing in front of a real doctor!
                         </p>
                     </div>
                 </div>
