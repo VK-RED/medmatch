@@ -5,24 +5,62 @@ async function main(){
     const emailid1 = process.env.EMAILID_1 as string;
     const emailid2 = process.env.EMAILID_2 as string;
 
-    const userIds = await prisma.user.findMany({
+    if(!emailid1&&!emailid2){
+        return;
+    }
+
+    const upsertUser1 = await prisma.user.upsert({
         where:{
-            email:emailid1 || emailid2,
+            email: emailid1,
         },
-        select:{
-            id:true,
+        update:{
+            minutesLeft:{
+                upsert:{
+                    where:{
+                        user:{
+                            email: emailid1
+                        }
+                    },
+                    update:{
+                        minutes:10000
+                    },
+                    create:{
+                        minutes:10000
+                    }
+                }
+            }
+        },
+        create:{
+            name:"Random1",
+            email:emailid1,
         }
     })
 
-    userIds.forEach(async (u)=>{
-        await prisma.minutesLeft.update({
-            where:{
-                userId:u.id
-            },
-            data:{
-                minutes:10000
+    const upsertUser2 = await prisma.user.upsert({
+        where:{
+            email: emailid2,
+        },
+        update:{
+            minutesLeft:{
+                upsert:{
+                    where:{
+                        user:{
+                            email: emailid2
+                        }
+                    },
+                    update:{
+                        minutes:10000
+                    },
+                    create:{
+                        minutes:10000
+                    }
+                }
             }
-        })
+        },
+        create:{
+            name:"Random2",
+            email:emailid2,
+        }
     })
 }
 
