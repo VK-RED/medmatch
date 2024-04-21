@@ -13,7 +13,7 @@ export const SpecialPricingCard = () => {
 
               <h3 className="text-2xl font-bold text-center">Pro</h3>
               <div className="mt-4 text-center text-zinc-600 dark:text-white">
-                <span className="text-4xl font-bold">{`$200`}</span>/ month
+                <span className="text-4xl font-bold">{`$200`}</span>/ {`5 hours`}
               </div>
               <ul className="mt-4 space-y-2">
                 <li className="flex items-center">
