@@ -44,7 +44,7 @@ export const Herocard = () => {
           <TypewriterEffectSmooth words={words} />
 
           <h1 className="text-xl text-zinc-700 font-bold dark:text-zinc-400">
-              Ace your Obstetrics and Gynecology Interviews with our platform.
+              {`Ace Your Obstetrics Oral Board Exam with AI Interviewers.`}
           </h1>
 
           <div className="flex items-center space-x-8">
@@ -81,11 +81,11 @@ export const Herocard = () => {
                 !isDemoStarted
                 ?(
                   <div className="flex flex-col items-center space-y-2">
-                    <InterviewerCard text={`Hey can we get started with the Demo Interview ?`}/>
+                    <InterviewerCard text={`Ready? Talk to me like I'm a human administrator!`}/>
                     <Button onClick={()=>{
                       setIsDemoStarted((p)=>true)
                     }}>
-                      {`Start my demo`}
+                      {`Start my free 3-min Demo`}
                     </Button> 
                   </div>
                 
