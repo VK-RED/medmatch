@@ -2,7 +2,7 @@
   "name": "medmatch",
   "version": "0.1.0",
   "private": true,
-  "prisma":{
+  "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
@@ -66,6 +66,7 @@
     "@types/react-speech-recognition": "^3.9.5",
     "@types/three": "^0.162.0",
     "autoprefixer": "^10.0.1",
+    "daisyui": "^4.10.2",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
