@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { ILoader } from "./iloader";
 import { InterviewerCard } from "./interviewerCard";
 import { Button } from "./ui/button";
+import { TimerComponent } from "./timer";
 
 export const DemoInterviewCard = ({isDemoStarted,setIsDemoStarted}:{isDemoStarted:boolean,setIsDemoStarted:Dispatch<SetStateAction<boolean>>}) => {
     const {retellClient,startConversation,agentResponse,isIntStarted, stopConversation} = useRetell();
@@ -65,6 +66,8 @@ export const DemoInterviewCard = ({isDemoStarted,setIsDemoStarted}:{isDemoStarte
         return (
             <div>
                 <div className="flex flex-col items-center py-2 space-y-6 justify-center">
+
+                    {isIntStarted && <TimerComponent totalMinutes={2}/>}
 
                     {
                         (!isIntStarted || loading) ? <ILoader />
