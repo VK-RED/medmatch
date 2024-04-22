@@ -19,7 +19,7 @@ export const Navbar = () => {
             <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
 
                 <Link href="/pricing"
-                    className="text-md font-medium hover:underline underline-offset-4"
+                    className="text-sm font-medium hover:underline underline-offset-4"
                 >
                     Pricing
                 </Link>
@@ -30,16 +30,24 @@ export const Navbar = () => {
                 </Link>}
 
                 <div  className="flex justify-center items-center gap-5">
-                    <DarkModeToggler />
+                   
 
                     {
                         status === 'unauthenticated' ? (
-                            <Link className="text-sm font-medium hover:underline underline-offset-4" href="/signin">
-                                Signin
-                            </Link>
+                            <>
+                                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/signin">
+                                    Login
+                                </Link>
+                                <Link className="text-sm font-medium hover:underline underline-offset-4" href="/signup">
+                                    Signup
+                                </Link>
+                            </>
+                            
                         )
                         : <AvatarToggler/>
                     }
+
+                    <DarkModeToggler />
 
                 </div>
                 
