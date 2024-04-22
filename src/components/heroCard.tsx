@@ -15,12 +15,14 @@ export const Herocard = () => {
     const {status,data:session} = useSession();
     const [isDemoStarted,setIsDemoStarted] = useState(false);
     const [isPaid,setIsPaid] = useState(false);
+    const [dispayDemo,setDisplayDemo] = useState(false);
 
     useEffect(()=>{
       if(status === 'authenticated'){
         (async ()=>{
           const res = await isPaidUser(session.user?.email);
           setIsPaid((p)=>res)
+          setDisplayDemo((p)=>!res);
         })()
       }
       
@@ -74,7 +76,7 @@ export const Herocard = () => {
 
           
           {
-            (status==='unauthenticated' || status === 'authenticated'&& !isPaid ) && 
+            (status==='unauthenticated' || status === 'authenticated'&& dispayDemo) && 
 
             <div className="mt-3">
               {
