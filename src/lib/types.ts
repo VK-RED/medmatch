@@ -112,3 +112,7 @@ export interface InterviewComponentProps{
     setLoading:  Dispatch<SetStateAction<boolean>>,
     endInterview? : (() => void )|(() => Promise<void>),
 }
+
+export interface TimerProps{
+    totalMinutes:number
+}
