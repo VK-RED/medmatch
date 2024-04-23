@@ -19,7 +19,7 @@ export const isPaidUser = async (email:string|null|undefined)=>{
         }
     )
 
-    const minutes = user?.minutesLeft?.minutes || 0;
+    const minutes = user?.minutesLeft || 0;
 
     if(minutes > 0) return true;
     return false;
