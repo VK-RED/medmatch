@@ -27,6 +27,7 @@ export type ConvoArrType = z.infer<typeof convoArrSchema>;
 export const endChatSchema = z.object({
     chatId: z.string(),
     conversations: convoArrSchema,
+    timeTaken: z.number(),
 })
 
 export type EndChatType = z.infer<typeof endChatSchema>
@@ -113,6 +114,13 @@ export interface InterviewComponentProps{
     endInterview? : (() => void )|(() => Promise<void>),
 }
 
+export interface useTimerProps{
+    totalMinutes:number, 
+    isIntStarted:boolean, 
+    endInterview?:()=>Promise<void>
+}
+
 export interface TimerProps{
-    totalMinutes:number
+    minutes:number,
+    seconds:number
 }
