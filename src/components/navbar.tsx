@@ -25,7 +25,7 @@ export const Navbar = () => {
                 </Link>
                 
                 
-                {status === 'authenticated' &&  <Link className="text-md font-medium hover:underline underline-offset-4" href="/interview/all">
+                {status === 'authenticated' &&  <Link className="text-sm font-medium hover:underline underline-offset-4" href="/interview/all">
                     History
                 </Link>}
 
