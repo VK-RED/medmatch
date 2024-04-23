@@ -58,7 +58,7 @@ export default async function GetInterviewById(props:GetInterviewByIdProps) {
     if(!chat) redirect('/');
 
     return (
-        <div className="flex flex-col items-center pt-10 pb-10">
+        <div className="flex flex-col items-center pt-10 pb-10 h-screen">
 
             <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                 {chat.title}
