@@ -11,12 +11,25 @@ export async function POST(req:NextRequest){
         
         const session = await getServerSession(authOptions);
         if(!session || !session.user || !session.user.email) return NextResponse.json({message:USER_NOT_LOGGED_IN});
-
+        const email = session.user.email;
         const body = await req.json();
 
         const parsedBody = endChatSchema.parse(body);
 
-        const {chatId,conversations} = parsedBody;
+        const {chatId,conversations, timeTaken} = parsedBody;
+
+        const user = await prisma.user.findUnique({
+            where:{
+                email
+            },
+            select:{
+                minutesLeft:true
+            }
+        })
+
+        if(!user){
+            throw new Error("User Does not exists");
+        }
 
         const existingChat = await prisma.chat.findFirst({
             where:{
@@ -32,14 +45,26 @@ export async function POST(req:NextRequest){
 
         if(!isAllConvosCreated) throw new Error("Conversations Not created !!");
 
-        await prisma.chat.update({
+        const remainingMinutes = Math.max(0, user.minutesLeft - timeTaken); 
+
+        await prisma.user.update({
             where:{
-                id:chatId
+                email: email
             },
             data:{
-                completed:true,
+                minutesLeft: remainingMinutes,
+                chats:{
+                    update:{
+                        where:{
+                            id: chatId,
+                        },
+                        data:{
+                            completed: true,
+                        }
+                    }
+                }
             }
-        });
+        })
 
         return NextResponse.json({message:INTERVIEW_ENDED})        
 
