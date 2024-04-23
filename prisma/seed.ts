@@ -14,25 +14,12 @@ async function main(){
             email: emailid1,
         },
         update:{
-            minutesLeft:{
-                upsert:{
-                    where:{
-                        user:{
-                            email: emailid1
-                        }
-                    },
-                    update:{
-                        minutes:10000
-                    },
-                    create:{
-                        minutes:10000
-                    }
-                }
-            }
+            minutesLeft:10000
         },
         create:{
             name:"Random1",
             email:emailid1,
+            minutesLeft:10000
         }
     })
 
@@ -41,25 +28,12 @@ async function main(){
             email: emailid2,
         },
         update:{
-            minutesLeft:{
-                upsert:{
-                    where:{
-                        user:{
-                            email: emailid2
-                        }
-                    },
-                    update:{
-                        minutes:10000
-                    },
-                    create:{
-                        minutes:10000
-                    }
-                }
-            }
+            minutesLeft:10000
         },
         create:{
             name:"Random2",
             email:emailid2,
+            minutesLeft:10000
         }
     })
 }
