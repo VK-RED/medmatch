@@ -82,7 +82,7 @@ export const Herocard = () => {
               {
                 !isDemoStarted
                 ?(
-                  <div className="flex flex-col items-center space-y-2">
+                  <div className="flex flex-col items-center space-y-2 pb-8">
                     <InterviewerCard text={`Ready? Talk to me like I'm a human administrator!`}/>
                     <Button onClick={()=>{
                       setIsDemoStarted((p)=>true)

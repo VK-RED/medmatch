@@ -66,7 +66,7 @@ export const DemoInterviewCard = ({isDemoStarted,setIsDemoStarted}:{isDemoStarte
     if(isDemoStarted){
         return (
             <div>
-                <div className="flex flex-col items-center py-2 space-y-6 justify-center">
+                <div className="flex flex-col items-center pt-2 pb-8 space-y-6 justify-center">
 
                     {isIntStarted && <TimerComponent minutes={minutes} seconds={seconds}/>}
 
