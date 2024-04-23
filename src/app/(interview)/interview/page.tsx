@@ -18,6 +18,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ILoader } from "@/components/iloader";
 import { useRetell } from "@/hooks/useRetell";
+import { TimerComponent } from "@/components/timer";
+import { useTimer } from "@/hooks/useTimer";
 
 export default function InterviewPage(){
 
@@ -29,6 +31,8 @@ export default function InterviewPage(){
     const[loading,setLoading] = useState(true);
     const[chatId,setChatId] = useState("");
     const [title,setTitle] = useState("");
+    const{minutes,seconds} = useTimer({totalMinutes:0, isIntStarted, endInterview});
+    
 
     // TODO CHECK IF THE PREVIOUS PAGE IS AUDIO CHECKING PAGE
 
@@ -74,7 +78,13 @@ export default function InterviewPage(){
             role: con.role === 'agent' ? Role.agent : Role.user,
         }))
 
-        const body:EndChatType = {chatId,conversations:modConvos};
+        const ceiledMinute = (minutes < 59 && seconds <= 30) ? 1 : 0;
+        const timeTaken = 60 - (minutes+ceiledMinute);
+
+        console.log("Conversations --->",conversations);
+        console.log("Time Taken ----> ", timeTaken);
+
+        const body:EndChatType = {chatId,conversations:modConvos,timeTaken};
 
         const res = await fetch('/api/interview/end',{
             method:'POST',
@@ -118,6 +128,7 @@ export default function InterviewPage(){
                         !isIntStarted ? <ILoader />
                         :
                         <>
+                            <TimerComponent minutes={minutes} seconds={seconds}/>
 
                             <InterviewerCard text={agentResponse}/>
 

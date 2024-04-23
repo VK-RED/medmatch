@@ -6,13 +6,14 @@ import { ILoader } from "./iloader";
 import { InterviewerCard } from "./interviewerCard";
 import { Button } from "./ui/button";
 import { TimerComponent } from "./timer";
+import { useTimer } from "@/hooks/useTimer";
 
 export const DemoInterviewCard = ({isDemoStarted,setIsDemoStarted}:{isDemoStarted:boolean,setIsDemoStarted:Dispatch<SetStateAction<boolean>>}) => {
     const {retellClient,startConversation,agentResponse,isIntStarted, stopConversation} = useRetell();
     const {toast} = useToast();
     const[loading,setLoading] = useState(true);
     const stopConversationRef = useRef(stopConversation);
-
+    const {minutes,seconds} = useTimer({totalMinutes:2,isIntStarted})
     // As the ref of stopConversation keeps changing whenever any of the values of useRetell changes
     // So we store it in a Ref and that will be used by the useEffect hook later .
 
@@ -67,7 +68,7 @@ export const DemoInterviewCard = ({isDemoStarted,setIsDemoStarted}:{isDemoStarte
             <div>
                 <div className="flex flex-col items-center py-2 space-y-6 justify-center">
 
-                    {isIntStarted && <TimerComponent totalMinutes={2}/>}
+                    {isIntStarted && <TimerComponent minutes={minutes} seconds={seconds}/>}
 
                     {
                         (!isIntStarted || loading) ? <ILoader />
