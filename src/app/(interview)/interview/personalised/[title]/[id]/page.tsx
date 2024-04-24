@@ -20,11 +20,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { ILoader } from "@/components/iloader";
 import { useParams } from 'next/navigation'
+import { isPaidUser } from "@/actions/user/isPaid";
 
 export default function PersonalisedInterview(){
 
     const {title,id} = useParams<{ title: string; id: string }>()
-    const { status } = useSession()
+    const { status,data:session } = useSession()
     const {startRecording, stopRecording, isrecording, formData, endStream} = useRecording();
     const [iResponse,setIresponse] = useState("");
     const {toast} = useToast();
@@ -38,10 +39,17 @@ export default function PersonalisedInterview(){
             return;
         }
         if(status === 'authenticated'){
-            startInterview();
+            (async ()=>{
+                const res = await isPaidUser(session.user?.email);
+                if(!res){
+                    router.push("/");
+                    return;
+                }
+                startInterview();
+            })()
         }
 
-    },[])
+    },[status])
 
     
     async function chat(){

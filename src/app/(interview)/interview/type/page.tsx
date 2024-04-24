@@ -1,4 +1,5 @@
 'use client'
+import { isPaidUser } from "@/actions/user/isPaid";
 import { DropZone } from "@/components/dropzone"
 import { Fileviewer } from "@/components/fileViewer";
 import { Icons } from "@/components/icons";
@@ -16,14 +17,26 @@ export default function InterviewTypePage(){
     const router = useRouter();
     const[disabled,setDisabled] = useState(true);
     const[fileName,setFileName] = useState("");
-    const {status} = useSession();
+    const {status, data:session} = useSession();
     const {toast} = useToast();
     const [loading,setLoading] = useState(false);
 
     useEffect(()=>{
+
         if(status === 'unauthenticated'){
-            router.push("/");
+            router.push('/');
+            return;
         }
+        if(status === 'authenticated'){
+            (async ()=>{
+                const res = await isPaidUser(session.user?.email);
+                if(!res){
+                    router.push("/");
+                    return;
+                }
+            })()
+        }
+
     },[status])
     
 
