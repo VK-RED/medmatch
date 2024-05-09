@@ -1,7 +1,11 @@
+'use client';
 import { CheckIcon } from "lucide-react"
 import { Button } from "./ui/button"
+import { premium_product_id } from "@/lib/stripe"
+import { useRouter } from "next/navigation"
 
 export const SpecialPricingCard = () => {
+    const router = useRouter();
     return (
         <div className="relative flex flex-col p-6 bg-white shadow-lg rounded-lg dark:bg-zinc-800 justify-between border border-purple-500">
 
@@ -36,7 +40,8 @@ export const SpecialPricingCard = () => {
             </div>
 
             <div className="mt-6">
-              <Button className="w-full bg-gradient-to-r from-pink-500 to-purple-500">Get Started</Button>
+              <Button onClick={()=>router.push(`/checkout/${premium_product_id}`)}
+                className="w-full bg-gradient-to-r from-pink-500 to-purple-500">Get Started</Button>
             </div>
             
           </div>

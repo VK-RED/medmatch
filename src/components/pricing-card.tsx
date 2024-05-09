@@ -1,8 +1,12 @@
+'use client';
+import { basic_product_id } from "@/lib/stripe";
 import { Button } from "./ui/button"
 import { CheckIcon } from "lucide-react"
 
+import { useRouter } from "next/navigation";
+
 export const PricingCard = () => {
-    
+    const router = useRouter();
     return (
         <div className="flex flex-col p-6 bg-white shadow-lg rounded-lg dark:bg-zinc-800 justify-between border dark:border-zinc-600 border-gray-300">
 
@@ -31,7 +35,7 @@ export const PricingCard = () => {
                 </div>
 
                 <div className="mt-6">
-                    <Button className="w-full">Get Started</Button>
+                    <Button onClick={()=>router.push(`/checkout/${basic_product_id}`)} className="w-full">Get Started</Button>
                 </div>
 
           </div>
