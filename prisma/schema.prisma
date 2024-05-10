@@ -57,6 +57,7 @@ model User {
   chats         Chat[]
   conversations Conversation[]
   minutesLeft   Int @default(0)
+  payments Payment[]
 }
 
 model Chat {
@@ -85,4 +86,12 @@ enum Role {
   system
   user
   assistant
+}
+
+model Payment{
+  id String @id @default(cuid())
+  payment_intent String
+  receipt_url String
+  user User @relation(references: [id],fields: [userId])
+  userId String 
 }
