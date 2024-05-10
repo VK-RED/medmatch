@@ -124,3 +124,6 @@ export interface TimerProps{
     minutes:number,
     seconds:number
 }
+
+// minutes allocated based on subscription plan
+export type SubscriptionMinutes = 60 | 300;
