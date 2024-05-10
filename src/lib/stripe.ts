@@ -24,4 +24,7 @@ export const basic_price_id = process.env.BASIC_PRICE_ID as string;
 
 export const premium_product_id = process.env.NEXT_PUBLIC_PREMIUM_PROD_ID as string;
 export const premium_price_id = process.env.PREMIUM_PRICE_ID as string;
+
+export const webhook_secret = process.env.WEBHOOK_SECRET as string;
+
 export const stripe = createStripe();
