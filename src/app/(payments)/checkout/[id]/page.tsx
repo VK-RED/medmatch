@@ -1,13 +1,32 @@
 'use client';
 import { CheckoutForm } from '@/components/CheckoutForm';
-import { useParams } from 'next/navigation'
+import { useSession } from 'next-auth/react';
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect } from 'react';
 
 export default function CheckoutPage(){
     const {id:productId} = useParams<{id:string}>();
-    
-    return (
-        <div className='h-screen'>
-            <CheckoutForm key={productId} productId={productId}/>
-        </div>
-    )
+    const {status} = useSession();
+    const router = useRouter();
+
+    useEffect(()=>{
+        if(status === 'unauthenticated'){
+            router.push("/");
+        }
+    },[status])
+
+    if(status === 'loading'){
+        return (
+            <div>
+                Loading ....
+            </div>
+        )
+    }
+    else if(status === 'authenticated'){
+        return (
+            <div className='h-screen'>
+                <CheckoutForm key={productId} productId={productId}/>
+            </div>
+        )
+    }
 }
