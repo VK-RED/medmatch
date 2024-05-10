@@ -11,7 +11,7 @@ export default function CheckoutPage(){
 
     useEffect(()=>{
         if(status === 'unauthenticated'){
-            router.push("/");
+            router.push("/signin");
         }
     },[status])
 
