@@ -37,12 +37,18 @@ export const Return = () => {
       
       else if(status === 'complete') {
         return (
-          <section id="success">
-            <p>
-              {`We appreciate your interest! A confirmation email will be sent to ${customerEmail}.`}
-    
-              {`If you have any questions, please email`} <a href="mailto:orders@medmatch.com">{`orders@medmatch.com`}</a>.
+          <section id="success" className="flex flex-col items-center ">
+            
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+              {`Payment received Successfully ! `}
+            </h1>
+            <p className="leading-7 [&:not(:first-child)]:mt-6 text-3xl font-semibold">
+              {`We appreciate your interest! `}
             </p>
+            <p className="leading-7 [&:not(:first-child)]:mt-6">
+              {`If you have any questions, please email to`} <a href="mailto:orders@medmatch.com">{`contact@medmatch.com`}</a>.
+            </p>
+              
           </section>
         )
       }
